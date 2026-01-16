@@ -1,0 +1,143 @@
+/* ============================
+   Kenta Home Hero – Eyebrow
+============================ */
+.banner-section.kenta-home-hero .kenta-eyebrow{
+  /* Font */
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 50px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: ;
+  color: #255a10;
+
+  /* Layout / Position */
+  display: block;
+  max-width: 560px;     /* rộng tối đa của dòng */
+  margin: 0 0 40px;     /* đẩy lên/xuống bằng margin-top */
+  padding: 0;
+  text-align: left;
+
+  /* Fine-tune vị trí (tuỳ chọn) */
+  transform: translateX(0px) translateY(0px);
+}
+
+/* Desktop lớn hơn */
+@media (min-width: 1200px){
+  .banner-section.kenta-home-hero .kenta-eyebrow{
+    font-size: 26px;
+    font-weight: 600;
+    max-width: 700px;
+  }
+}
+/* HERO - Title (dòng thứ 2) */
+.banner-section.herokenta .apple-hero-title{
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 48px;          /* chỉnh to/nhỏ */
+  line-height: 1.05;        /* độ “Apple” */
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #0f172a;
+
+  max-width: 640px;         /* độ rộng khối chữ */
+  margin: 0 0 16px;         /* kéo lên/xuống bằng margin */
+  transform: translateX(0px) translateY(0px);  /* trái/phải + lên/xuống */
+}
+
+
+/* Bảo mật ... Mobile */
+@media (max-width: 767px){
+  .banner-section.kenta-home-hero .kenta-eyebrow{
+    font-size: 18px;
+    letter-spacing: 0.10em;
+    max-width: 100%;
+    margin: 0 0 20px;
+    transform: translateX(0px) translateY(0px);
+  }
+}
+/* Tái cớ cấu ... dòng thứ 2 - mobile */
+@media (max-width: 767px){
+  .banner-section.herokenta .apple-hero-title{
+    font-size: 30px;
+    line-height: 1.2;
+    max-width: 100%;
+  }
+}
+/* TEMP: Ẩn block "Nhóm Tín chấp" trong Home Hero */
+.banner-section.kenta-home-hero .partner {
+  display: none !important;
+}
+/* =========================
+   FIX: Home hero bị đẩy lên quá cao (MOBILE)
+   Áp dụng riêng cho hero trang chủ
+========================= */
+@media (max-width: 767px) {
+  /* chừa chỗ cho header fixed */
+  .banner-section.kenta-home-hero {
+    padding-top: 0px !important; /* tăng/giảm 76-96 tuỳ header bạn */
+  }
+
+  /* nếu nội dung còn bị kẹt, nới padding khối content */
+  .banner-section.kenta-home-hero .kenta-hero-content {
+    padding-top: 0 !important;
+  }
+
+  /* tránh margin-top âm từ theme cũ */
+  .banner-section.kenta-home-hero .banner-content,
+  .banner-section.kenta-home-hero .overlay {
+    margin-top: 0 !important;
+  }
+}
+/* =========================
+   FORCE PULL UP HOME HERO (DESKTOP)
+========================= */
+@media (min-width: 992px){
+  /* kéo toàn bộ hero lên sát navbar */
+  .banner-section.kenta-home-hero{
+    margin-top: -320px !important;
+  }
+}
+/* HẠ TOÀN BỘ TEXT HERO */
+.banner-section.kenta-home-hero .kenta-hero-content{
+  margin-top: 50px;   /* thử: 32 / 40 / 48 / 56 */
+}
+/* Hạ title dòng 2 */
+.banner-section.kenta-home-hero .apple-hero-title{
+  margin-top: 16px;
+}
+/* =========================================
+   HOME HERO — TÁCH TEXT / IMAGE (CHẮC ĂN)
+========================================= */
+
+/* 1) Text column: đẩy riêng phần chữ */
+html body #__next .banner-section.kenta-home-hero .banner-content .main-content{
+  transform: translateY(80px) !important; /* ✅ tăng/giảm để hạ text */
+}
+
+/* 2) Image column: khóa lại để không bị kéo theo */
+html body #__next .banner-section.kenta-home-hero .banner-content .img-area,
+html body #__next .banner-section.kenta-home-hero .banner-content .img-area *{
+  transform: none !important;
+}
+
+/* 3) Nếu text vẫn dính theo wrapper cũ (do bạn từng set ở overlay/banner-content) thì reset nó */
+html body #__next .banner-section.kenta-home-hero .overlay,
+html body #__next .banner-section.kenta-home-hero .banner-content{
+  transform: none !important;
+}
+/* =========================
+   MOBILE — KÉO TEXT HERO LÊN
+========================= */
+@media (max-width: 767px){
+  html body #__next 
+  .banner-section.kenta-home-hero 
+  .banner-content 
+  .main-content{
+    transform: translateY(20px) !important;
+  }
+}
+@media (max-width: 767px){
+  /* Hạ nguyên block "Bạn đã sẵn sàng?" xuống dưới hero */
+  .get-start{
+    margin-top: 32px;   /* chỉnh tại đây: 24 / 32 / 40 */
+  }
+}

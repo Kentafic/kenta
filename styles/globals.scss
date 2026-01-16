@@ -1,0 +1,45 @@
+body {
+  font-family: 'Montserrat', sans-serif !important;
+}
+/*======== Table of Css Content ==========*/
+/* Typography */
+/* variables */
+/* Global style */
+
+/* 
+=========================
+=========================
+*/
+
+// Sass Global
+@import "../public/scss/main/_global.scss";
+
+// Pages
+@import "../public/scss/pages/_banner-footer.scss";
+@import "../public/scss/pages/_section.scss";
+@import "../public/scss/pages/_preloader.scss";
+
+// Responsive Area
+@import "../public/scss/main/_responsive.scss";
+
+/* ===== FIX: page bị "chặn" / không scroll đúng ===== */
+html,
+body {
+  height: auto !important;
+  min-height: 100% !important;
+  overflow-y: auto !important;
+}
+
+body {
+  overflow-x: hidden !important; /* chỉ chặn ngang */
+}
+
+/* Nếu lỡ có rule khóa #__next */
+#__next {
+  height: auto !important;
+  min-height: 100% !important;
+}
+/* TEMP: Ẩn block "Nhóm Tín chấp" */
+.partner-section .partner {
+  display: none !important;
+}

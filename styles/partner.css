@@ -1,0 +1,142 @@
+/* Nền tổng thể của section partner */
+.partner-register .overlay {
+  background: radial-gradient(circle at top left, #e8f2ff 0, #f5f9ff 40%, #ffffff 100%);
+  padding-top: 96px;   /* thoáng hơn, không bị sát header */
+  padding-bottom: 96px;
+}
+
+/* Cột nội dung bên trái */
+.partner-content {
+  max-width: 620px;
+}
+
+/* text chính */
+.partner-content .title {
+  font-size: 32px;
+  line-height: 1.25;
+  margin-bottom: 16px;
+}
+
+.partner-content .sub-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #15803d; /* xanh lá như hero */
+  margin-bottom: 8px;
+}
+
+.partner-content .desc {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #4b5563;
+}
+
+/* chip fintech nhỏ */
+.partner-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.partner-chips .chip {
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  background: #e5edff;
+  color: #1d4ed8;
+  font-weight: 500;
+}
+
+/* card nội dung bên trái */
+.partner-card {
+  border-radius: 18px;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+  margin-bottom: 14px;
+}
+
+.partner-subtitle {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #0b132a;
+}
+
+/* card form bên phải */
+.partner-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hạn chế padding cột bootstrap bên trong */
+.partner-form .row {
+  margin: 0;
+}
+.partner-form .col-12,
+.partner-form .col-6 {
+  padding-left: 0;
+  padding-right: 0;
+}
+.partner-form .single-input {
+  margin-bottom: 12px;
+}
+
+/* label */
+.partner-form .single-input label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 4px;
+  display: block;
+}
+
+/* ô input: bỏ pill, cho bo nhẹ / chiều cao hợp lý */
+.partner-form .single-input input {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  padding: 8px 12px;
+  font-size: 14px;
+  background: #f9fafb;
+}
+
+/* Label nhỏ, gọn, đồng đều */
+.partner-form .single-input label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 4px;
+  display: block;
+}
+
+/* Đoạn mô tả cuối form – đừng chiếm quá nhiều chỗ */
+.partner-form .single-input p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #6b7280;
+  margin-bottom: 0;
+}
+
+/* nút CTA: giữ full width nhưng hợp lý hơn */
+.partner-form .cmn-btn {
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+/* thu hẹp khoảng cách nút với text trên */
+.partner-form .btn-area {
+  margin-top: 8px;
+}
+
+/* Thu gọn card form & canh lại bên phải */
+@media (min-width: 992px) {
+  .partner-form {
+    max-width: 420px;
+    margin-left: auto;      /* đẩy sát về bên phải */
+    margin-right: 24px;     /* cách mép phải 1 tí cho thoáng */
+  }
+}

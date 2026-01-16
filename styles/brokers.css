@@ -1,0 +1,1779 @@
+
+
+@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600;700;800&display=swap");
+/* =========================================================
+   KENTA BROKERS — ONLY
+   File: styles/brokers.css
+========================================================= */
+
+/* Apple container (dùng cho Brokers pages/layout) */
+.apple-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+.apple-container--content { max-width: 420px; }
+.apple-container--wide { max-width: 520px; }
+
+@media (min-width: 768px) {
+  .apple-container {
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+  .apple-container--content { max-width: 720px; }
+  .apple-container--wide { max-width: 880px; }
+}
+
+@media (min-width: 1200px) {
+  .apple-container {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+  .apple-container--content { max-width: 960px; }
+  .apple-container--wide { max-width: 1120px; }
+}
+
+/* Brokers typography */
+.apple-h1 {
+  margin: 0;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  color: #0f172a;
+  font-size: 28px;
+}
+
+@media (min-width: 768px) {
+  .apple-h1 { font-size: 40px; letter-spacing: -0.03em; }
+}
+
+@media (min-width: 1200px) {
+  .apple-h1 { font-size: 44px; }
+}
+
+.apple-sub {
+  margin: 10px 0 0;
+  color: #475569;
+  line-height: 1.6;
+  font-size: 14px;
+}
+@media (min-width: 768px) { .apple-sub { font-size: 16px; } }
+
+.apple-h2 {
+  margin: 0;
+  color: #111827;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.18;
+  font-size: 20px;
+}
+@media (min-width: 768px) { .apple-h2 { font-size: 22px; } }
+
+.broker-name {
+  font-size: 16px;
+  font-weight: 750;
+  letter-spacing: -0.01em;
+  color: #111827;
+}
+
+.broker-meta {
+  font-size: 13px;
+  line-height: 1.55;
+  color: #6b7280;
+}
+
+@media (max-width: 576px) {
+  /* 90%: bóp bằng container, không scale */
+  html body #__next .banner-section .overlay .banner-content .container {
+    width: 90% !important;
+    max-width: 90% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* Đẩy hero lên trên + cắt gọn */
+  html body #__next .banner-section {
+    min-height: auto !important;
+    margin-top: -40px !important; /* kéo lên sát header hơn */
+  }
+
+  /* Nếu banner-content đang bị d-flex align-items-center => nó canh giữa tạo khoảng trống */
+  html body #__next .banner-section .overlay .banner-content,
+  html body #__next .banner-section .overlay .banner-content.d-flex {
+    display: block !important;
+    align-items: flex-start !important;
+    padding: 54px 0 28px !important; /* gọn hơn */
+  }
+
+  /* Gọn chữ */
+  html body #__next .banner-section h1,
+  html body #__next .banner-section .title {
+    font-size: 30px !important;
+    line-height: 1.14 !important;
+    letter-spacing: -0.4px !important;
+    margin-bottom: 10px !important;
+  }
+
+  /* Gọn background */
+  html body #__next .banner-section .overlay {
+    background-position: right -20px top 10px !important;
+    background-size: 240px auto !important;
+  }
+
+  /* Nút gọn */
+  html body #__next .banner-section .cmn-btn,
+  html body #__next .banner-section button {
+    padding: 10px 16px !important;
+    border-radius: 999px !important;
+  }
+}
+/* Apple-style heading cho tiếng Việt */
+.apple-h2 {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+               "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 18px;              /* mobile */
+  font-weight: 600;             /* vừa, không thô */
+  line-height: 1.35;            /* rất quan trọng cho dấu VN */
+  letter-spacing: -0.2px;       /* Apple-style */
+  color: #0f172a;               /* slate-900 */
+  margin: 0;
+}
+
+/* Mobile chỉnh thêm chút cho dễ đọc */
+@media (max-width: 576px) {
+  .apple-h2 {
+    font-size: 17px;
+    line-height: 1.4;
+  }
+}
+/* =========================================================
+   KENTA CHATBOT PAGE ONLY
+   File: styles/chatbot.css
+
+@media (max-width: 576px) {
+
+  /* ✅ CHỈ LOGO KENTA (FILE HÌNH) */
+  html body #__next .header-section .navbar-brand img,
+  html body #__next .header-section .logo img {
+    height: 40px !important;      /* chuẩn Apple-like */
+    width: auto !important;
+    max-height: none !important;
+  }
+  /* (tuỳ chọn) thu gọn wrapper để navbar không cao */
+  html body #__next .header-section .navbar-brand,
+  html body #__next .header-section .logo {
+    display: flex !important;
+    align-items: center !important;
+    height: 44px !important;      /* chiều cao navbar iOS chuẩn */
+  }
+/* Apple-like page fade-in */
+.apple-route-fade {
+  animation: appleFade 1.5s cubic-bezier(.22,.61,.36,1) both;
+  will-change: opacity, transform;
+}
+
+@keyframes appleFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* =========================================================
+   APPLE BROKER — Card + Rail (clean, consistent)
+========================================================= */
+
+/* ===== Card ===== */
+.apple-broker-card{
+  background:#ffffff; /* ✅ trùng màu hero (đổi từ #f5f5f7) */
+  border:1px solid rgba(15,23,42,.06);
+  border-radius:28px;
+  box-shadow:0 10px 22px rgba(15,23,42,.08);
+  overflow:hidden;
+
+  width: 100%;
+  max-width:300px;
+
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* ===== Grid chia khối (top 2 cột / giữa / đáy) ===== */
+.apple-broker-grid{
+  display:grid;
+  grid-template-columns: 120px 1fr;
+  grid-template-rows: auto 1fr auto;
+  min-height: 430px;
+}
+
+/* ===== TOP LEFT (avatar) ===== */
+.apple-broker-top-left{
+  padding:16px;
+  min-height:96px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.apple-broker-top-left .apple-broker-avatar{
+  width: 72px;
+  height: 72px;
+  border-radius:999px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  color:#fff;
+  font-weight:800;
+  font-size:18px;
+
+  flex: 0 0 auto;
+}
+
+/* ===== TOP RIGHT (rate + name + role) ===== */
+.apple-broker-top-right{
+  padding:16px;
+  min-height:96px;
+
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  text-align:right;
+  gap:6px;
+
+  min-width: 0;
+}
+
+.apple-broker-rating{
+  font-size:12.5px;
+  font-weight:700;
+  color:#111827;
+
+  display:flex;
+  align-items:center;
+  gap:6px;
+
+  white-space:nowrap;
+}
+.apple-broker-rating .star{ color:#fb923c; font-size:13px; }
+.apple-broker-rating .count{ color:#6b7280; font-weight:600; }
+
+.apple-broker-name{
+  font-size:16px;
+  font-weight:750;
+  color:#111827;
+  letter-spacing:-0.02em;
+
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:100%;
+}
+
+.apple-broker-role{
+  font-size:12.5px;
+  color:#6b7280;
+
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:100%;
+}
+
+/* ===== MIDDLE (content) ===== */
+.apple-broker-middle{
+  grid-column:1 / -1;
+  padding:16px;
+
+  min-height:250px;
+
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.apple-broker-eyebrow{
+  font-size:12px;
+  font-weight:600;
+  color:#6b7280;
+  letter-spacing:-0.01em;
+}
+
+/* Visual (nếu còn dùng) */
+.apple-broker-visual{
+  position:relative;
+  height:180px;
+  border-radius:22px;
+  background:#fff;
+  overflow:hidden;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.apple-broker-plus{
+  position:absolute;
+  right:12px;
+  bottom:12px;
+
+  width:44px;
+  height:44px;
+  border-radius:999px;
+  border:0;
+
+  background:#111827;
+  color:#fff;
+  font-size:24px;
+  line-height:1;
+  cursor:pointer;
+}
+
+/* Desc clamp */
+.apple-broker-desc{
+  color:#111827;
+  font-size:13.5px;
+  line-height:1.45;
+
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+
+/* ===== BOTTOM (actions) ===== */
+.apple-broker-bottom{
+  grid-column:1 / -1;
+  padding:14px 16px;
+  min-height:64px;
+
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:10px;
+}
+
+/* ✅ Apple button reset (để không bị global/Bootstrap đè) */
+.apple-btn{
+  appearance:none;
+  -webkit-appearance:none;
+  border:0;
+  background:transparent;
+  font:inherit;
+  cursor:pointer;
+  padding:0;
+}
+
+/* ✅ Apple Primary Button (Nhắn Zalo) */
+.apple-btn.apple-btn-primary{
+  padding: 9px 16px;
+  border-radius: 999px;
+
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+
+  color: #ffffff;
+
+  /* iOS-like system blue */
+  background: linear-gradient(180deg, #0a84ff 0%, #0066ff 100%);
+
+  box-shadow:
+    0 12px 26px rgba(10, 132, 255, 0.32),
+    inset 0 1px 0 rgba(255,255,255,0.35);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+}
+
+.apple-btn.apple-btn-primary:hover{
+  filter: brightness(1.03);
+  box-shadow:
+    0 16px 32px rgba(10, 132, 255, 0.38),
+    inset 0 1px 0 rgba(255,255,255,0.40);
+}
+
+.apple-btn.apple-btn-primary:active{
+  transform: translateY(1px) scale(0.985);
+  box-shadow:
+    0 8px 18px rgba(10, 132, 255, 0.30),
+    inset 0 2px 8px rgba(0,0,0,0.18);
+}
+
+.apple-btn.apple-btn-primary:focus-visible{
+  outline:none;
+  box-shadow:
+    0 0 0 4px rgba(10, 132, 255, 0.25),
+    0 12px 26px rgba(10, 132, 255, 0.32);
+}
+
+/* ===== Ẩn divider hoàn toàn (liền mạch) ===== */
+.apple-broker-top-left,
+.apple-broker-top-right,
+.apple-broker-middle{
+  border: none !important;
+}
+
+/* ===== Desktop tweak ===== */
+@media (min-width: 768px) {
+  .apple-broker-card{
+    max-width: 320px;
+  }
+  .apple-broker-name{ font-size:17px; }
+}
+
+/* =========================================================
+   APPLE BROKER RAIL — Mobile horizontal scroll
+========================================================= */
+@media (max-width: 576px) {
+  .apple-broker-rail {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 86%;
+    gap: 14px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    margin: 0;
+
+    padding-left: 20px;
+    padding-right: 16px;
+    padding-bottom: 14px;
+
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .apple-broker-rail .apple-broker-card {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+
+  /* ✅ nếu muốn nút full-width trên mobile */
+  /* .apple-btn.apple-btn-primary{ width:100%; } */
+}
+
+@media (max-width: 420px) {
+  .apple-broker-rail{ grid-auto-columns: 92%; }
+}
+.brokers-page {
+  .section::after,
+  .section-divider,
+  .section-accent {
+    display: none !important;
+  }
+}
+@media (max-width: 576px) {
+  .section::after {
+    display: none;
+  }
+}
+/* =========================
+   DESKTOP LAYOUT — FULL WIDTH
+========================= */
+.brokers-desktop-grid {
+  display: block;          /* ✅ bỏ grid 2 cột */
+  width: 100%;
+}
+
+.brokers-list-col {
+  width: 100%;
+  min-width: 0;
+}
+
+/* ===============================
+   BROKERS — FORCE 3 COLUMNS GRID
+   (works even if BrokerList uses flex)
+=============================== */
+
+/* 1) Grid ở wrapper bạn đã tạo */
+.brokers-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
+}
+
+/* 2) Nếu BrokerList render ra 1 container bên trong, ép nó "không phá" grid */
+.brokers-grid > * {
+  min-width: 0;
+}
+
+/* 3) Nếu BrokerList bên trong đang là flex column, ta chuyển nó thành "contents"
+      để các card trở thành grid items trực tiếp */
+.brokers-grid .broker-list,
+.brokers-grid .broker-list-horizontal,
+.brokers-grid .brokers-list,
+.brokers-grid .list-brokers {
+  display: contents !important;
+}
+
+/* 4) Card phải rộng 100% theo ô grid (nhiều template cũ hay set width cố định) */
+.brokers-grid .broker-card,
+.brokers-grid .brokers-card,
+.brokers-grid .single-broker-card,
+.brokers-grid .card {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+/* 5) Responsive */
+@media (max-width: 1199px) {
+  .brokers-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 767px) {
+  .brokers-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.brokers-section {
+  padding-top: 0; /* = chiều cao header */
+  padding-bottom: 120px;
+}
+/* STEP 1 — Đưa brokers ra sát lề trái */
+@media (min-width: 1200px) {
+  .apple-container--brokers-desktop {
+    max-width: none !important;
+    width: 100%;
+
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+
+    padding-left: 24px;   /* chỉnh: 0 / 16 / 24 */
+    padding-right: 24px;  /* giữ thở nhẹ bên phải */
+  }
+}
+/* =========================
+   BROKERS GRID — DESKTOP 5 COLUMNS
+========================= */
+
+/* Mobile (default) */
+.brokers-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  .brokers-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Desktop */
+@media (min-width: 1200px) {
+  .brokers-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr)); /* ✅ 5 card / hàng */
+    align-items: stretch;
+  }
+}
+/*=========================
+   NAVBAR — COMPACT
+========================= 
+.header-section {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+.header-section .logo img {
+  height: 32px;   
+  width: auto;
+}
+.header-section .nav-link {
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  font-size: 14px;
+}
+.header-section .header-btn,
+.header-section .btn,
+.header-section .nav-btn {
+  height: 34px;
+  padding: 0 16px;
+  font-size: 14px;
+  border-radius: 999px;
+}
+body {
+  padding-top: 0px; 
+} */
+/* =========================
+   WHITE STRIP UNDER NAVBAR
+========================= */
+
+
+@media (min-width:1200px) {
+  .brokers-white-inner {
+    padding: 160px 32px 32px; /* Tăng chiều cao strip trên desktop */
+  }
+}
+/* Khoảng hở giữa navbar & white strip */
+/* GAP GIỮA NAVBAR & WHITE STRIP */
+.brokers-top-gap {
+  height: 160px;        /* 🔥 CHỈ 16px */
+  flex-shrink: 0;
+}
+.brokers-section {
+  padding-top: 0;   /* ❗ đảm bảo là 0, không phải '0 px' */
+}
+.brokers-white-strip{
+  width: 100%;
+  margin-top: 0 !important;
+
+  /* 🎯 Trục sáng trung tâm (đỡ chữ) */
+  background:
+    radial-gradient(
+      900px 260px at 50% 45%,
+      rgba(255,255,255,1) 0%,
+      rgba(255,255,255,0.92) 40%,
+      rgba(247,249,252,0.85) 65%,
+      rgba(245,247,251,0.0) 100%
+    ),
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #f6f8fc 100%
+    );
+
+  border-bottom: 1px solid rgba(15,23,42,.06);
+  box-shadow: 0 18px 48px rgba(15,23,42,.06);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+
+/* giữ strip */
+.brokers-white-inner{
+  min-height: 300px;
+  padding: 100px 32px 46px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  transform: none !important;
+}
+
+.brokers-text-stack{
+  min-height: 160px;      /* tăng để khỏi clip khi translateY */
+  width: 100%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+/* 3 dòng chồng lên nhau */
+.brokers-line{
+  grid-area: 1 / 1;
+  margin: 0;
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #0f172a;
+  white-space: nowrap;
+  line-height: 1.1;
+}
+/* Intro tĩnh ở giữa strip */
+.brokers-strip-company {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(15, 23, 42, 0.62);
+}
+
+.brokers-strip-note {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(15, 23, 42, 0.55);
+}
+
+/* Responsive 
+@media (max-width: 768px) {
+  .brokers-white-inner {
+    padding: 44px 16px 26px;
+  }
+}*/
+/* ANIMATION CHO DÒNG CHỮ (5 DÒNG) */
+/* ====== LOOP TIMELINE (5 lines) ====== */
+.brokers-text-stack.is-animate .line-1 { animation: cycle1 15s cubic-bezier(.22,.61,.36,1) infinite; }
+.brokers-text-stack.is-animate .line-2 { animation: cycle2 15s cubic-bezier(.22,.61,.36,1) infinite; }
+.brokers-text-stack.is-animate .line-3 { animation: cycle3 15s cubic-bezier(.22,.61,.36,1) infinite; }
+.brokers-text-stack.is-animate .line-4 { animation: cycle4 15s cubic-bezier(.22,.61,.36,1) infinite; }
+.brokers-text-stack.is-animate .line-5 { animation: cycle5 15s cubic-bezier(.22,.61,.36,1) infinite; }
+
+/* trạng thái default (ẩn) để chắc cú */
+.brokers-text-stack .brokers-line{
+  opacity: 0;
+  transform: translateY(24px);
+  will-change: transform, opacity;
+}
+
+/* Slot mỗi dòng = 20% (vì 5 dòng) */
+/* Trong 1 slot: 
+   - 0% -> 5.4%  : vào (0.27 * 20)
+   - 5.4 -> 14.6 : đứng (0.73 * 20)
+   - 14.6 -> 20  : đi lên + ẩn
+*/
+
+@keyframes cycle1{
+  0%    {opacity:0; transform:translateY(24px);}
+  5.4%  {opacity:1; transform:translateY(0);}
+  14.6% {opacity:1; transform:translateY(0);}
+  20%   {opacity:0; transform:translateY(-32px);}
+  100%  {opacity:0; transform:translateY(24px);}
+}
+
+@keyframes cycle2{
+  0%, 20%   {opacity:0; transform:translateY(24px);}
+  25.4%     {opacity:1; transform:translateY(0);}
+  34.6%     {opacity:1; transform:translateY(0);}
+  40%       {opacity:0; transform:translateY(-32px);}
+  100%      {opacity:0; transform:translateY(24px);}
+}
+
+@keyframes cycle3{
+  0%, 40%   {opacity:0; transform:translateY(24px);}
+  45.4%     {opacity:1; transform:translateY(0);}
+  54.6%     {opacity:1; transform:translateY(0);}
+  60%       {opacity:0; transform:translateY(-32px);}
+  100%      {opacity:0; transform:translateY(24px);}
+}
+
+@keyframes cycle4{
+  0%, 60%   {opacity:0; transform:translateY(24px);}
+  65.4%     {opacity:1; transform:translateY(0);}
+  74.6%     {opacity:1; transform:translateY(0);}
+  80%       {opacity:0; transform:translateY(-32px);}
+  100%      {opacity:0; transform:translateY(24px);}
+}
+
+@keyframes cycle5{
+  0%, 80%   {opacity:0; transform:translateY(24px);}
+  85.4%     {opacity:1; transform:translateY(0);}
+  94.6%     {opacity:1; transform:translateY(0);}
+  100%      {opacity:0; transform:translateY(-32px);}
+}
+/* ✅ CHỈ phần chữ trong white strip */
+.brokers-white-strip .brokers-line{
+  font-family: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+
+  /* Apple-like: bớt “thô” */
+  font-size: 56px;          /* desktop */
+  font-weight: 650;              /* nhẹ hơn 800 một chút */
+  letter-spacing: -0.018em;      /* vừa đủ, không “kẹt dấu” */
+  line-height: 1.1;
+  color: #0b1220;
+
+  /* làm chữ mịn và “gọn” hơn */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Các dòng sau nhẹ hơn dòng 1 */
+.brokers-white-strip .line-2,
+.brokers-white-strip .line-3,
+.brokers-white-strip .line-4,
+.brokers-white-strip .line-5{
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+@media (max-width: 576px){
+  .brokers-white-strip .brokers-line{
+    font-size: 32px;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    white-space: normal;   /* ✅ tránh bị bó khi chữ dài */
+    text-wrap: balance;    /* ✅ nếu browser hỗ trợ */
+  }
+}
+/* Đẩy toàn bộ chữ chạy xuống thấp hơn trong strip */
+.brokers-white-strip .brokers-text-stack{
+  margin-top: 24px;   /* thử 16 → 24px tùy mắt */
+}
+
+/* =========================================
+   PREMIUM POLISH (Apple-gloss) — Avatar only
+   Paste at the END of brokers.css
+   TOP LEFT: avatar */
+
+.apple-broker-avatarWrap{
+  width: 72px;
+  height: 72px;
+  border-radius: 999px;
+  overflow: hidden;
+
+  background: #f1f5f9;
+  border: 1px solid rgba(15,23,42,.08);
+
+  box-shadow:
+    0 1px 0 rgba(15,23,42,.03),
+    0 10px 22px rgba(15,23,42,.06);
+    position: relative;
+  display: grid;
+  place-items: center;
+  line-height: 0;
+
+}
+
+.apple-broker-avatarFrame{
+  width: 96px;               /* khung to */
+  height: 96px;
+  border-radius: 999px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: #fff;
+}
+
+.apple-broker-avatarImg{
+  width: 100% !important;    /* ảnh giữ đúng size, không bị CSS ép */
+  height: 100% !important;
+  border-radius: 999px;
+  object-fit: cover;
+  display: block;
+}
+
+.apple-broker-avatarFallback{
+  width: 84px;
+  height: 84px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-weight: 800;
+}
+/* =========================================
+   PREMIUM POLISH (Apple-gloss) — Cards only
+   Paste at the END of brokers.css
+========================================= */
+
+/* 1) Card nền + highlight + shadow mềm hơn */
+.apple-broker-card{
+  position: relative;
+  border: 1px solid rgba(15,23,42,.06);
+  background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.86));
+  box-shadow:
+    0 14px 34px rgba(15,23,42,.10),
+    0 2px 6px rgba(15,23,42,.06);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, filter .18s ease;
+  will-change: transform, box-shadow;
+}
+
+/* highlight “lung linh” nằm trên mặt card */
+.apple-broker-card::before{
+  content:"";
+  position:absolute;
+  inset: 0;
+  border-radius: 28px;
+  pointer-events:none;
+
+  /* ánh sáng góc trái + dải highlight mờ */
+  background:
+    radial-gradient(800px 240px at 12% 0%,
+      rgba(10,132,255,.12),
+      rgba(10,132,255,0) 60%),
+    radial-gradient(520px 220px at 90% 18%,
+      rgba(168,85,247,.10),
+      rgba(168,85,247,0) 62%),
+    linear-gradient(135deg,
+      rgba(255,255,255,.55) 0%,
+      rgba(255,255,255,0) 38%);
+
+  opacity: .85;
+}
+
+/* 2) Hover nổi premium */
+.apple-broker-card:hover{
+  transform: translateY(-4px);
+  border-color: rgba(10,132,255,.18);
+  box-shadow:
+    0 20px 48px rgba(15,23,42,.14),
+    0 8px 18px rgba(10,132,255,.10);
+  filter: saturate(1.03);
+}
+
+/* 3) Avatar: ring + shadow rõ nét, không “bệt” */
+.apple-broker-avatarWrap{
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  overflow: hidden;
+
+  background: rgba(255,255,255,.9);
+  border: 1px solid rgba(15,23,42,.08);
+
+  box-shadow:
+    0 10px 24px rgba(15,23,42,.10),
+    inset 0 1px 0 rgba(255,255,255,.65);
+}
+
+/* ảnh bên trong: giữ tròn + nét */
+.apple-broker-avatarImg{
+  border-radius: 999px;
+  object-fit: cover;
+  display: block;
+
+  /* tăng cảm giác “sharp” (không làm vỡ) */
+  image-rendering: auto;
+  transform: translateZ(0);
+}
+
+/* 4) Nút Zalo: bóng bẩy hơn chút */
+.apple-btn.apple-btn-primary{
+  box-shadow:
+    0 16px 34px rgba(10,132,255,.32),
+    inset 0 1px 0 rgba(255,255,255,.45);
+}
+
+.apple-btn.apple-btn-primary:hover{
+  box-shadow:
+    0 20px 42px rgba(10,132,255,.36),
+    inset 0 1px 0 rgba(255,255,255,.52);
+}
+
+/* 5) Text top-right: mượt + rõ hơn một chút (giữ layout) */
+.apple-broker-name{
+  letter-spacing: -0.02em;
+}
+.apple-broker-role{
+  opacity: .86;
+}
+/*--=========================
+   END OF FILE*/
+   /* =========================
+   BROKERS HERO — GLASS FRAME (A)
+========================= */
+.brokers-hero{
+  padding: 56px 0 34px;
+}
+
+.brokers-hero-frame{
+  position: relative;
+  width: min(1080px, calc(100% - 56px));
+  margin: 0 auto;
+
+  padding: 34px 28px;
+  border-radius: 26px;
+
+  background: rgba(255,255,255,.78);
+  border: 1px solid rgba(15,23,42,.06);
+
+  box-shadow:
+    0 22px 70px rgba(15,23,42,.10),
+    0 1px 0 rgba(255,255,255,.75) inset;
+
+  backdrop-filter: blur(10px) saturate(1.15);
+  -webkit-backdrop-filter: blur(10px) saturate(1.15);
+
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* border gradient giống card */
+.brokers-hero-frame::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius: 26px;
+  padding: 1px;
+  pointer-events:none;
+
+  background: linear-gradient(135deg,
+    rgba(59,130,246,.16),
+    rgba(255,255,255,.55),
+    rgba(168,85,247,.12));
+
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+
+  opacity:.55;
+  z-index: 1;
+}
+
+/* glow nền nhẹ */
+.brokers-hero-frame::after{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  border-radius: 26px;
+  pointer-events:none;
+
+  background:
+    radial-gradient(900px 240px at 20% 0%,
+      rgba(59,130,246,.14),
+      rgba(255,255,255,0) 55%),
+    radial-gradient(700px 220px at 90% 10%,
+      rgba(168,85,247,.10),
+      rgba(255,255,255,0) 55%),
+    linear-gradient(180deg,
+      rgba(255,255,255,.70),
+      rgba(255,255,255,0) 55%);
+
+  opacity:.55;
+  z-index: 0;
+}
+
+/* Title */
+.brokers-hero-title{
+  position: relative;
+  z-index: 2;
+
+  margin: 0;
+  text-align: center;
+
+  font-weight: 800;
+  letter-spacing: -0.6px;
+  line-height: 1.05;
+
+  font-size: clamp(34px, 4.2vw, 54px);
+  color: #0f172a;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* light sweep khi hover (tinh tế) */
+.brokers-hero-frame:hover{
+  box-shadow:
+    0 30px 90px rgba(15,23,42,.14),
+    0 1px 0 rgba(255,255,255,.78) inset;
+}
+.brokers-hero-frame:hover .brokers-hero-title{
+  transform: translateY(-1px);
+  transition: transform .25s ease;
+}
+.brokers-hero-frame .brokers-hero-title{
+  transition: transform .25s ease;
+}
+/* =========================================
+   WHITE STRIP — SUBTLE LIGHT DRIFT
+   (Apple / Stripe style)
+========================================= */
+
+.brokers-white-strip::before{
+  content:"";
+  position:absolute;
+  inset:-20%;
+  pointer-events:none;
+
+  background:
+    radial-gradient(600px 240px at 20% 30%,
+      rgba(59,130,246,.08),
+      rgba(255,255,255,0) 60%),
+    radial-gradient(600px 260px at 80% 40%,
+      rgba(168,85,247,.07),
+      rgba(255,255,255,0) 65%);
+
+  filter: blur(40px);
+  opacity:.65;
+  animation: whiteStripDrift 36s linear infinite;
+}
+
+/* ánh sáng trôi cực chậm */
+@keyframes whiteStripDrift{
+  0%   { transform: translateX(-6%) translateY(-2%); }
+  50%  { transform: translateX(6%) translateY(2%); }
+  100% { transform: translateX(-6%) translateY(-2%); }
+}
+
+/* đảm bảo chữ & content luôn trên cùng */
+.brokers-white-inner,
+.brokers-text-stack{
+  position: relative;
+  z-index: 2;
+}
+.brokers-white-strip{
+  width: 100%;
+  margin-top: 0 !important;
+
+  /* 🌈 STRONGER FINTECH TONE */
+  background:
+    radial-gradient(
+      720px 260px at 50% 44%,
+      rgba(255,255,255,1) 0%,
+      rgba(240,245,255,0.95) 35%,
+      rgba(230,235,255,0.82) 55%,
+      rgba(245,247,251,0) 100%
+    ),
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #eef2fb 100%
+    );
+
+  border-bottom: 1px solid rgba(15,23,42,.08);
+
+  box-shadow:
+    0 24px 64px rgba(15,23,42,.08),
+    inset 0 -1px 0 rgba(255,255,255,.6);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+/* =========================
+   APPLE-STYLE HEADINGS*/
+/* =========================
+   BROKER META (Address, Exp, Region)
+========================= */
+.apple-broker-meta {
+  margin-top: 12px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  font-family: "Be Vietnam Pro", system-ui, -apple-system,
+               "Segoe UI", Roboto, Arial, sans-serif;
+
+  font-size: 13.5px;          /* nhỏ hơn title */
+  line-height: 1.55;
+  font-weight: 450;
+
+  color: #334155;             /* slate-700: rõ nhưng không gắt */
+}
+
+/* từng dòng meta */
+.apple-broker-meta > div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  white-space: nowrap;
+}
+
+/* icon (emoji) – giữ nhẹ */
+.apple-broker-meta > div::first-letter {
+  font-size: 14px;
+  opacity: 0.9;
+}
+/* =========================================================
+   APPLE BROKER CARD — PER-CARD BACKGROUND (ADD-ON)
+   Mục tiêu: mỗi card một màu nền khác nhau
+   - KHÔNG đổi layout
+   - KHÔNG đổi hiệu ứng/animation hiện có
+   - Chỉ override background + lớp glow nhẹ
+========================================================= */
+
+/* 1) Base: giữ nền trắng + “lụa” nhẹ (nếu bạn đã có thì đoạn này chỉ tinh chỉnh nhẹ) */
+.apple-broker-card{
+  position: relative;
+  overflow: hidden; /* để pseudo-element không tràn */
+}
+
+/* 2) Lớp “lụa” nhẹ bên trong — không ảnh hưởng content */
+.apple-broker-card::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: .9;
+
+  /* lớp noise/shine cực nhẹ */
+  background:
+    radial-gradient(900px 220px at 18% 10%, rgba(255,255,255,.75) 0%, rgba(255,255,255,0) 60%),
+    radial-gradient(900px 260px at 90% 22%, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 62%),
+    linear-gradient(180deg, rgba(255,255,255,.42), rgba(255,255,255,0));
+ 
+}
+
+/* 3) Lớp “glow viền” nhẹ cho cảm giác bóng bẩy */
+.apple-broker-card::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: .85;
+  background:
+    radial-gradient(520px 220px at 12% 6%, rgba(99,102,241,.10), rgba(99,102,241,0) 60%),
+    radial-gradient(520px 240px at 92% 16%, rgba(236,72,153,.08), rgba(236,72,153,0) 65%);
+  filter: blur(10px);
+}
+
+/* 4) Nền theo vị trí (mỗi card một màu). 
+      Dùng nth-child để không phải sửa TSX. */
+.apple-brokers-list > *:nth-child(6n + 1) .apple-broker-card,
+.apple-broker-card:nth-child(6n + 1){
+  background:
+    radial-gradient(900px 260px at 22% 0%, rgba(59,130,246,.14) 0%, rgba(59,130,246,0) 60%),
+    radial-gradient(900px 280px at 85% 18%, rgba(99,102,241,.12) 0%, rgba(99,102,241,0) 62%),
+    linear-gradient(180deg, #ffffff 0%, #f4f8ff 100%);
+}
+
+.apple-brokers-list > *:nth-child(6n + 2) .apple-broker-card,
+.apple-broker-card:nth-child(6n + 2){
+  background:
+    radial-gradient(900px 260px at 18% 8%, rgba(34,197,94,.14) 0%, rgba(34,197,94,0) 58%),
+    radial-gradient(900px 280px at 88% 18%, rgba(16,185,129,.10) 0%, rgba(16,185,129,0) 62%),
+    linear-gradient(180deg, #ffffff 0%, #f3fff8 100%);
+}
+
+.apple-brokers-list > *:nth-child(6n + 3) .apple-broker-card,
+.apple-broker-card:nth-child(6n + 3){
+  background:
+    radial-gradient(900px 260px at 20% 6%, rgba(168,85,247,.14) 0%, rgba(168,85,247,0) 60%),
+    radial-gradient(900px 280px at 90% 16%, rgba(236,72,153,.10) 0%, rgba(236,72,153,0) 62%),
+    linear-gradient(180deg, #ffffff 0%, #fbf5ff 100%);
+}
+
+.apple-brokers-list > *:nth-child(6n + 4) .apple-broker-card,
+.apple-broker-card:nth-child(6n + 4){
+  background:
+    radial-gradient(900px 260px at 18% 6%, rgba(245,158,11,.14) 0%, rgba(245,158,11,0) 60%),
+    radial-gradient(900px 280px at 88% 18%, rgba(239,68,68,.10) 0%, rgba(239,68,68,0) 62%),
+    linear-gradient(180deg, #ffffff 0%, #fff7ef 100%);
+}
+
+.apple-brokers-list > *:nth-child(6n + 5) .apple-broker-card,
+.apple-broker-card:nth-child(6n + 5){
+  background:
+    radial-gradient(900px 260px at 20% 6%, rgba(14,165,233,.14) 0%, rgba(14,165,233,0) 60%),
+    radial-gradient(900px 280px at 90% 18%, rgba(2,132,199,.10) 0%, rgba(2,132,199,0) 62%),
+    linear-gradient(180deg, #ffffff 0%, #f2fbff 100%);
+}
+
+.apple-brokers-list > *:nth-child(6n + 6) .apple-broker-card,
+.apple-broker-card:nth-child(6n + 6){
+  background:
+    radial-gradient(900px 260px at 18% 6%, rgba(100,116,139,.12) 0%, rgba(100,116,139,0) 60%),
+    radial-gradient(900px 280px at 90% 18%, rgba(148,163,184,.10) 0%, rgba(148,163,184,0) 62%),
+    linear-gradient(180deg, #ffffff 0%, #f6f8fb 100%);
+}
+/* 6) Optional: nếu hover hiện tại đã có shadow/transform, đừng ghi đè.
+      Chỉ “nâng” nhẹ độ trong để nhìn rõ gradient hơn khi hover */
+@media (hover:hover){
+  .apple-broker-card:hover::after{ opacity: 1; }
+}
+/* ✅ FIX: pseudo layers nằm dưới content, không ảnh hưởng layout/avatar */
+.apple-broker-card{
+  position: relative;
+  overflow: hidden;
+  isolation: isolate; /* tạo stacking context riêng cho card */
+}
+
+/* đẩy nền xuống dưới */
+.apple-broker-card::before,
+.apple-broker-card::after{
+  z-index: -1;         /* quan trọng */
+  pointer-events: none;
+}
+
+/* giữ content ở trên (KHÔNG đổi position) */
+.apple-broker-card .apple-broker-grid{
+  position: relative;  /* chỉ set cho grid thôi, không set cho mọi con */
+  z-index: 0;
+}
+/* =========================================
+   BROKERS — HIDE HERO ON MOBILE
+========================================= */
+@media (max-width: 768px) {
+  .brokers-page .banner-section {
+    display: none !important;
+  }
+}
+/* =========================================
+   BROKERS — FIX HEADER GAP (MOBILE)
+========================================= */
+@media (max-width: 768px) {
+  .brokers-page .brokers-top-gap {
+    height: 8px !important;   /* hoặc 0 nếu muốn sát hẳn */
+    margin: 0 !important;
+  }
+}
+@media (max-width: 768px) {
+  .brokers-page .white-strip,
+  .brokers-page .brokers-white-strip {
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    min-height: unset !important;
+  }
+}
+@media (max-width: 768px) {
+  .brokers-page .brokers-section {
+    padding-top: 8px !important;
+  }
+
+  .brokers-page .apple-container {
+    padding-top: 0 !important;
+  }
+}
+@media (max-width: 768px) {
+  /* Nếu đây là banner/hero cũ đang còn hiển thị như hình */
+  .brokers-page .banner-section {
+    min-height: auto !important;
+    height: auto !important;
+    padding: 14px 0 10px !important;
+    background: transparent !important;
+  }
+
+  .brokers-page .banner-section .title,
+  .brokers-page .banner-section h1,
+  .brokers-page .banner-section h2 {
+    font-size: 18px !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.2px !important;
+    margin: 0 !important;
+  }
+}
+/* =========================================
+   BROKERS — FORCE HIDE SCROLLBARS (MOBILE)
+   Works even if scroll is on inner containers
+========================================= */
+@media (max-width: 768px) {
+  /* Firefox */
+  .brokers-page,
+  .brokers-page * {
+    scrollbar-width: none !important;
+    scrollbar-color: transparent transparent !important;
+  }
+
+  /* Chrome / Safari / Edge */
+  .brokers-page::-webkit-scrollbar,
+  .brokers-page *::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    display: none !important;
+  }
+
+  .brokers-page::-webkit-scrollbar-thumb,
+  .brokers-page *::-webkit-scrollbar-thumb {
+    background: transparent !important;
+    border: 0 !important;
+  }
+
+  .brokers-page::-webkit-scrollbar-track,
+  .brokers-page *::-webkit-scrollbar-track {
+    background: transparent !important;
+  }
+}
+@media (max-width: 768px) {
+  .brokers-carousel {
+    overflow: hidden;              /* tắt scroll ngang thủ công */
+    width: 100%;
+  }
+
+  .brokers-carousel__track {
+    display: flex;
+    gap: 14px;
+    will-change: transform;
+    transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* card chiếm 82% viewport => card sau lấp ló */
+  .brokers-carousel__slide {
+    flex: 0 0 82%;
+    box-sizing: border-box;
+  }
+}
+@media (max-width: 768px) {
+  .brokers-carousel {
+    overflow: hidden;            /* ✅ tắt scroll ngang thủ công */
+    width: 100%;
+    touch-action: pan-y;         /* ✅ vẫn cuộn dọc bình thường */
+  }
+
+  .brokers-carousel__track {
+    display: flex;
+    gap: 14px;
+    will-change: transform;
+    transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .brokers-carousel__slide {
+    flex: 0 0 82%;
+    box-sizing: border-box;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .brokers-carousel__track {
+      transition: none !important;
+    }
+  }
+}
+/* ============ Apple-like Carousel ============ */
+.apple-carousel {
+  position: relative;
+  margin-top: 10px;
+}
+
+/* scroller */
+.apple-carousel__scroller {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: 12px 16px 26px;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+
+  /* ✅ hide scrollbar (đúng cái bạn cần “thanh tím”) */
+  scrollbar-width: none; /* Firefox */
+}
+.apple-carousel__scroller::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* mỗi slide chiếm ~82% để lộ card kế */
+.apple-carousel__slide {
+  flex: 0 0 82%;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+
+/* HUD pill */
+.apple-carousel__hud {
+  position: absolute;
+  left: 50%;
+  bottom: 6px;
+  transform: translateX(-50%);
+  pointer-events: auto;
+}
+
+.apple-carousel__dots {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  padding: 10px 14px;
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.14);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.apple-carousel__dots .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.28);
+  transition: transform 160ms ease, opacity 160ms ease;
+  opacity: 0.65;
+  cursor: pointer;
+}
+.apple-carousel__dots .dot.is-active {
+  opacity: 1;
+  transform: scale(1.35);
+  background: rgba(15, 23, 42, 0.78);
+}
+/* ===============================
+   AUTO CAROUSEL CONTROLLER (Apple)
+=============================== */
+
+.broker-rail-wrap {
+  position: relative;
+}
+
+/* pill container */
+.carousel-controller {
+  position: absolute;
+  left: 50%;
+  bottom: 6px;
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 8px 14px;
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.14);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+
+  pointer-events: none; /* 👈 purely visual */
+}
+
+/* dots */
+.carousel-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.carousel-dots .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.25);
+}
+
+.carousel-dots .dot.is-active {
+  background: rgba(15, 23, 42, 0.85);
+}
+
+/* progress bar */
+.carousel-progress {
+  width: 32px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.15);
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-progress::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.85);
+  transform-origin: left;
+  animation: carouselProgress linear forwards;
+  animation-duration: 5s; /* = HOLD_MS */
+}
+
+@keyframes carouselProgress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+/* =========================================================
+   DESKTOP — SOFT GLASS SWEEP + CARD RESPONSE
+   Apple-like, subtle, calm
+========================================================= */
+
+@media (min-width: 769px) {
+
+  /* ===== STAGE ===== */
+  .brokers-grid{
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  /* ===== GLOBAL SOFT LIGHT SWEEP ===== */
+  .brokers-grid::after{
+    content:"";
+    position:absolute;
+    inset: -60% -140%;
+    pointer-events:none;
+    z-index: 6;
+
+    /* 🌤️ mềm – không gắt */
+    background: linear-gradient(
+      115deg,
+      rgba(255,255,255,0)    30%,
+      rgba(255,255,255,0.10) 42%,
+      rgba(255,255,255,0.22) 48%,
+      rgba(255,255,255,0.40) 50%,  /* đỉnh sáng thấp */
+      rgba(255,255,255,0.22) 52%,
+      rgba(255,255,255,0.10) 58%,
+      rgba(255,255,255,0)    70%
+    );
+
+    filter: blur(12px);              /* blur nhiều hơn → glass */
+    mix-blend-mode: screen;
+
+    transform: translateX(-120%);
+    opacity: 0;
+
+    animation: softGridSweep 14s cubic-bezier(.22,.61,.36,1) infinite;
+  }
+
+  @keyframes softGridSweep{
+    0%   { transform: translateX(-120%); opacity: 0; }
+    14%  { opacity: .55; }
+    45%  { transform: translateX(120%);  opacity: .55; }
+    62%  { opacity: 0; }
+    100% { transform: translateX(120%);  opacity: 0; }
+  }
+
+  /* ===== CARD RESPONSE (only when light passes) ===== */
+  .brokers-grid > * .apple-broker-card{
+    will-change: transform;
+    transform: translateZ(0);
+    animation: cardRespond 14s cubic-bezier(.22,.61,.36,1) infinite;
+    animation-delay: var(--phase, 0s);
+  }
+
+  @keyframes cardRespond{
+    0%, 18%   { transform: translateY(0) scale(1); }
+    30%      { transform: translateY(-1.5px) scale(1.005); } /* 👈 rất nhẹ */
+    42%      { transform: translateY(0) scale(1); }
+    100%     { transform: translateY(0) scale(1); }
+  }
+
+  /* ===== STAGGER 0.35s ===== */
+  .brokers-grid > *:nth-child(1)  .apple-broker-card{ --phase: 0s; }
+  .brokers-grid > *:nth-child(2)  .apple-broker-card{ --phase: .35s; }
+  .brokers-grid > *:nth-child(3)  .apple-broker-card{ --phase: .70s; }
+  .brokers-grid > *:nth-child(4)  .apple-broker-card{ --phase: 1.05s; }
+  .brokers-grid > *:nth-child(5)  .apple-broker-card{ --phase: 1.40s; }
+  .brokers-grid > *:nth-child(6)  .apple-broker-card{ --phase: 1.75s; }
+  .brokers-grid > *:nth-child(7)  .apple-broker-card{ --phase: 2.10s; }
+  .brokers-grid > *:nth-child(8)  .apple-broker-card{ --phase: 2.45s; }
+  .brokers-grid > *:nth-child(9)  .apple-broker-card{ --phase: 2.80s; }
+  .brokers-grid > *:nth-child(10) .apple-broker-card{ --phase: 3.15s; }
+
+  /* ===== ACCESSIBILITY ===== */
+  @media (prefers-reduced-motion: reduce){
+    .brokers-grid::after,
+    .brokers-grid > * .apple-broker-card{
+      animation: none !important;
+      transform: none !important;
+      opacity: 0 !important;
+    }
+  }
+}
+/* =========================
+   NAVBAR — GLOBAL (APPLE COMPACT)
+========================= */
+
+/* Header sticky + glass */
+.header-section{
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  padding: 8px 0;
+
+  background: rgba(255,255,255,0.78);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  border-bottom: 1px solid rgba(15,23,42,0.08);
+}
+
+.header-section.header-fixed{
+  box-shadow: 0 10px 26px rgba(15,23,42,0.10);
+}
+
+/* Navbar base */
+.header-section .navbar{
+  padding: 0;
+  align-items: center;
+}
+
+/* Logo (Next/Image safe) */
+.header-section .navbar-brand{
+  display: flex;
+  align-items: center;
+  line-height: 0;
+  margin-left: 10px;          /* dịch logo sang phải */
+}
+
+/* scale logo theo tỉ lệ (70–80%) */
+.header-section .navbar-brand span,
+.header-section .navbar-brand img{
+  transform: scale(0.8);
+  transform-origin: left center;
+  display: block;
+}
+
+/* Navigation links */
+.header-section .nav-link{
+  padding: 6px 0;
+  font-size: 14px;
+  font-weight: 650;
+  color: rgba(15,23,42,0.82);
+}
+.header-section .nav-link:hover{
+  color: rgba(15,23,42,1);
+}
+
+/* CTA buttons */
+.header-section .header-btn,
+.header-section .btn,
+.header-section .nav-btn,
+.header-section .cmn-btn{
+  height: 36px;
+  padding: 0 16px;
+  font-size: 14px;
+  border-radius: 999px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+@media (max-width: 768px){
+  .header-section{
+    padding: 6px 0;
+  }
+
+  .header-section .navbar-toggler{
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255,255,255,0.75);
+    border: 1px solid rgba(15,23,42,0.12);
+    box-shadow: 0 10px 22px rgba(15,23,42,0.08);
+
+    padding: 0;
+    line-height: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .header-section .navbar-toggler:focus{
+    outline: none;
+    box-shadow: 0 10px 22px rgba(15,23,42,0.10);
+  }
+
+  .header-section .navbar-toggler svg{
+    width: 18px;
+    height: 18px;
+    color: #0f172a;
+  }
+}
+
+/* Body không bù navbar */
+body{
+  padding-top: 0;
+}
+/* =========================
+   DESKTOP — LOGO +120%
+========================= */
+@media (min-width: 992px){
+  .header-section .navbar-brand span,
+  .header-section .navbar-brand img{
+    transform: scale(0.96); /* 120% so với 0.8 */
+  }
+}
