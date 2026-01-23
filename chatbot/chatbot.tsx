@@ -156,7 +156,6 @@ export default function LoanChatbot() {
   const [showAreaOptions, setShowAreaOptions] = useState(false);
   const [canShowLoanOptions, setCanShowLoanOptions] = useState(false);
   const hasRunIntro = useRef(false);
-  const bottomRef = useRef<HTMLDivElement | null>(null);
   const [showNameInput, setShowNameInput] = useState(false);
   const [fullName, setFullName] = useState("");
   const [showAgeInput, setShowAgeInput] = useState(false);
@@ -219,6 +218,32 @@ export default function LoanChatbot() {
       }
     }, TYPING_SPEED);
   };
+  // Hàm cuộn xuống đáy khung chat
+  const scrollToBottom = (smooth = true) => {
+  const el = chatBodyRef.current;
+  if (!el) return;
+
+  el.scrollTo({
+    top: el.scrollHeight,
+    behavior: smooth ? "smooth" : "auto",
+  });
+};
+// Tự động cuộn khi có tin nhắn mới hoặc trạng thái gõ chữ thay đổi
+useEffect(() => {
+  scrollToBottom(true);
+}, [
+  messages,
+  isTyping,
+  showAreaOptions,
+  showNameInput,
+  showAgeInput,
+  showLoanAmountInput,
+  showPurposeOptions,
+  showIncomeInput,
+  showCollateralOptions,
+  showCollateralValueInput,
+  showCreditOptions,
+]);
 
   // Hàm định dạng số tiền với dấu phẩy
   const formatNumber = (value: string) => {
@@ -289,24 +314,6 @@ export default function LoanChatbot() {
   };
 }, []);
 //--------------------------------------------------------------------
-// Cuộn khung chat xuống dưới cùng khi có tin nhắn mới
-useEffect(() => {
-  if (bottomRef.current) {
-    bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
-  }
-}, [
-  messages,
-  isTyping,
-  showAreaOptions,
-  showNameInput,
-  showAgeInput,
-  showLoanAmountInput,
-  showPurposeOptions,
-  showIncomeInput,
-  showCollateralOptions,
-  showCollateralValueInput,
-  showCreditOptions,
-]);
 //--------------------------------------------------------------------
   // Xử lý khi nhấn "vay cá nhân"
   const handlePersonalLoan = () => {
@@ -496,11 +503,6 @@ const handlePickBroker = (brokerName: string) => {
     setTimeout(() => {
       setShowFinishButton(true);
        // ✅ scroll 1 lần sau khi nút render ra DOM
-  setTimeout(() => {
-    const el = chatBodyRef.current;
-    if (!el) return;
-    el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
-  }, 50);
     }, delay);
   };
 
@@ -717,18 +719,32 @@ setReport((prev) => ({
   return (
   <div className="kenta-chat-frame" style={frameStyle}>
     <style>
-      {`
-        @keyframes userPop {
-          0% { transform: scale(0.9) translateY(6px); opacity: 0; }
-          100% { transform: scale(1) translateY(0); opacity: 1; }
-        }
+  {`
+    /* ✅ FIX: khóa font toàn bộ chatbot + input/button inherit */
+    .kenta-chat-frame{
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    .kenta-chat-frame input,
+    .kenta-chat-frame button,
+    .kenta-chat-frame textarea,
+    .kenta-chat-frame select{
+      font-family: inherit !important;
+      font-size: inherit;
+    }
 
-        @keyframes botFade {
-          0% { transform: translateY(6px); opacity: 0; }
-          100% { transform: translateY(0); opacity: 1; }
-        }
-      `}
-    </style>
+    @keyframes userPop {
+      0% { transform: scale(0.9) translateY(6px); opacity: 0; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    @keyframes botFade {
+      0% { transform: translateY(6px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+  `}
+</style>
 
 {/* THÔNG BÁO CUỐI CÙNG KHI HOÀN TẤT HỒ SƠ */}
 
@@ -2152,8 +2168,6 @@ setReport((prev) => ({
     </div>
   )
 )}
-        {/* ĐÁY KHUNG CHAT ĐỂ AUTO SCROLL */}
-        <div ref={bottomRef} />
       </div>
     </div>
   );
