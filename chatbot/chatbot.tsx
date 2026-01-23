@@ -503,6 +503,7 @@ const handlePickBroker = (brokerName: string) => {
     el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
   }, 50);
 }, delay);
+  };
 
   // XỬ LÝ KHI CHỌN HOÀN TẤT HỒ SƠ
   const handleOpenReport = () => {
@@ -1775,7 +1776,7 @@ setReport((prev) => ({
         )}
 
        {/* GIAO DIỆN BÁO CÁO KẾT QUẢ CUỐI CÙNG */}
-{showReport && report && (
+{showReport && report ? (
   isMobile ? (
     <MobileLoanReport
       report={report}
@@ -2151,7 +2152,7 @@ setReport((prev) => ({
       </div>
     </div>
   )
-)}
+): null}
         {/* ĐÁY KHUNG CHAT ĐỂ AUTO SCROLL */}
         <div ref={bottomRef} />
       </div>
