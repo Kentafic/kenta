@@ -196,6 +196,10 @@ export default function LoanChatbot() {
   const chatBodyRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
   const [showFinalNotice, setShowFinalNotice] = useState(false);
+  const [viewportH, setViewportH] = useState<number | null>(null);
+
+const nameInputRef = useRef<HTMLInputElement | null>(null);
+const ageInputRef = useRef<HTMLInputElement | null>(null);
 
 
   // Gõ từng chữ cho 1 bubble của bot
@@ -273,23 +277,77 @@ export default function LoanChatbot() {
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, []);
+//--------------------------------------------------------------------
+// Cập nhật chiều cao viewport (fix iOS)
+useEffect(() => {
+  if (typeof window === "undefined") return;
 
-  //--------------------------------------------------------------------
-  // Phát hiện kích thước màn hình
-  useEffect(() => {
-  const checkMobile = () => {
-    setIsMobile(window.innerWidth <= 768);
+  const vv = window.visualViewport;
+
+  const update = () => {
+    const h = vv?.height ?? window.innerHeight;
+    setViewportH(Math.round(h));
   };
 
-  checkMobile(); // chạy lần đầu
-  window.addEventListener("resize", checkMobile);
+  update();
+  vv?.addEventListener("resize", update);
+  vv?.addEventListener("scroll", update);
+  window.addEventListener("resize", update);
 
   return () => {
-    window.removeEventListener("resize", checkMobile);
+    vv?.removeEventListener("resize", update);
+    vv?.removeEventListener("scroll", update);
+    window.removeEventListener("resize", update);
   };
 }, []);
 //--------------------------------------------------------------------
-//--------------------------------------------------------------------
+// Cuộn khung chat xuống dưới cùng
+const scrollChatToBottom = (smooth = true) => {
+  const el = chatBodyRef.current;
+  if (!el) return;
+  el.scrollTo({ top: el.scrollHeight, behavior: smooth ? "smooth" : "auto" });
+};
+
+useEffect(() => {
+  if (!showNameInput) return;
+  const input = nameInputRef.current;
+  if (!input) return;
+
+  const onFocus = () => {
+    setTimeout(() => {
+      input.scrollIntoView({ behavior: "smooth", block: "center" });
+      scrollChatToBottom(true);
+    }, 250);
+  };
+
+  input.addEventListener("focus", onFocus);
+  // nếu muốn auto focus luôn:
+  setTimeout(() => input.focus(), 200);
+
+  return () => input.removeEventListener("focus", onFocus);
+}, [showNameInput]);
+
+useEffect(() => {
+  if (!showAgeInput) return;
+  const input = ageInputRef.current;
+  if (!input) return;
+
+  const onFocus = () => {
+    setTimeout(() => {
+      input.scrollIntoView({ behavior: "smooth", block: "center" });
+      scrollChatToBottom(true);
+    }, 250);
+  };
+
+  input.addEventListener("focus", onFocus);
+  setTimeout(() => input.focus(), 200);
+
+  return () => input.removeEventListener("focus", onFocus);
+}, [showAgeInput]);
+
+
+
+
 // Cuộn khung chat xuống dưới cùng khi có tin nhắn mới (fix iOS)
 useEffect(() => {
   const el = chatBodyRef.current;
@@ -692,26 +750,54 @@ setReport((prev) => ({
     boxShadow: "0 8px 20px rgba(37, 99, 235, 0.35)",
     border: "1px solid rgba(255,255,255,0.25)",
   };
+ // ✅ iOS-safe scroll container (visualViewport aware)
+const RESERVED_MOBILE = 120;  // chừa phần header / padding / notice (tùy bạn)
+const RESERVED_DESKTOP = 160;
 
-  // khung scroll chính của chat
- const chatScrollStyle: React.CSSProperties = {
+const effectiveVH =
+  viewportH != null
+    ? viewportH
+    : typeof window !== "undefined"
+    ? window.innerHeight
+    : 0;
+
+const chatScrollStyle: React.CSSProperties = {
   display: "flex",
   flexDirection: "column",
   overflowY: "auto",
+  overflowX: "hidden",
   boxSizing: "border-box",
   gap: 12,
-  scrollBehavior: "smooth",
 
-  // khoảng cách trên/dưới tuỳ mobile – desktop
-  paddingTop: isMobile ? 40 : 40,
+  // ✅ iOS momentum scroll
+  WebkitOverflowScrolling: "touch",
+
+  // ✅ tránh “bounce” kéo cả trang
+  overscrollBehavior: "contain",
+
+  // ⚠️ đừng set scrollBehavior ở đây (iOS hay giật), bạn đã scrollTo({behavior:"smooth"}) rồi
+  // scrollBehavior: "smooth",
+
+  paddingTop: 40,
   paddingBottom: isMobile ? 16 : 24,
   paddingLeft: 12,
   paddingRight: 4,
 
-  // giới hạn chiều cao để xuất hiện thanh cuộn
-  maxHeight: isMobile
-    ? "calc(100vh - 120px)"   // mobile: chừa header + footer
-    : "calc(100vh - 160px)",  // desktop: chừa thoáng hơn
+  // ✅ FIX iOS 100vh: dùng visualViewport height
+  maxHeight:
+    effectiveVH > 0
+      ? `${Math.max(
+          320,
+          effectiveVH - (isMobile ? RESERVED_MOBILE : RESERVED_DESKTOP)
+        )}px`
+      : isMobile
+      ? "calc(100vh - 120px)"
+      : "calc(100vh - 160px)",
+
+  width: "100%",
+
+  // giảm reflow khi typing/scroll
+  willChange: "scroll-position",
 };
 
    // ✅ RETURN DUY NHẤT CỦA COMPONENT
@@ -897,6 +983,7 @@ setReport((prev) => ({
     }}
   >
     <input
+      ref={nameInputRef}
       type="text"
       value={fullName}
       placeholder="Nhập họ và tên của bạn..."
@@ -978,6 +1065,7 @@ setReport((prev) => ({
                   }}
                 >
                   <input
+                  ref={ageInputRef}
                     type="number"
                     value={age}
                     placeholder="Nhập độ tuổi..."
