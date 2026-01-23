@@ -195,6 +195,9 @@ export default function LoanChatbot() {
   const chatBodyRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
   const [showFinalNotice, setShowFinalNotice] = useState(false);
+  const APP_FONT =
+  'Inter, Montserrat, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
+
 
 
   // Gõ từng chữ cho 1 bubble của bot
@@ -717,7 +720,15 @@ setReport((prev) => ({
 
    // ✅ RETURN DUY NHẤT CỦA COMPONENT
   return (
-  <div className="kenta-chat-frame" style={frameStyle}>
+  <div
+  className="kenta-chat-frame"
+  style={{
+    ...frameStyle,
+    fontFamily: APP_FONT,
+    WebkitFontSmoothing: "antialiased",
+    MozOsxFontSmoothing: "grayscale",
+  }}
+>
     <style>
   {`
     /* ✅ FIX: khóa font toàn bộ chatbot + input/button inherit */
@@ -895,7 +906,7 @@ setReport((prev) => ({
             )}
 
             {/* INPUT TÊN KHÁCH HÀNG */}
-          {showNameInput && (
+{showNameInput && (
   <div
     style={{
       display: "flex",
@@ -903,12 +914,15 @@ setReport((prev) => ({
       gap: 10,
       marginTop: 10,
 
-      // ✅ Mobile full width, Desktop co theo nội dung
+      // Mobile full width, Desktop co theo nội dung
       width: isMobile ? "100%" : "fit-content",
       alignSelf: isMobile ? "stretch" : "flex-start",
 
       // căn theo từng mode
       alignItems: isMobile ? "stretch" : "center",
+
+      // ✅ ÉP FONT TỪ CHAT WRAPPER
+      fontFamily: "inherit",
     }}
   >
     <input
@@ -917,7 +931,7 @@ setReport((prev) => ({
       placeholder="Nhập họ và tên của bạn..."
       onChange={(e) => setFullName(e.target.value)}
       style={{
-        // ✅ Mobile full width, Desktop cố định vừa đẹp
+        // Mobile full width, Desktop cố định vừa đẹp
         width: isMobile ? "100%" : 360,
         flex: isMobile ? "1 1 auto" : "0 0 360px",
         minWidth: 0,
@@ -929,8 +943,15 @@ setReport((prev) => ({
         outline: "none",
         fontSize: 14,
         boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
+
+        // ✅ DÒNG QUAN TRỌNG NHẤT
+        fontFamily: "inherit",
+        WebkitFontSmoothing: "antialiased",
+        MozOsxFontSmoothing: "grayscale",
       }}
     />
+  </div>
+)}
 
     <button
       onClick={() => {
