@@ -366,6 +366,11 @@ useEffect(() => {
   showCollateralValueInput,
   showCreditOptions,
 ]);
+//khóa cuộn trang khi mở chatbot
+useEffect(() => {
+  document.body.classList.add("chatbot-lock");
+  return () => document.body.classList.remove("chatbot-lock");
+}, []);
 
 //--------------------------------------------------------------------
   // Xử lý khi nhấn "vay cá nhân"
@@ -703,6 +708,9 @@ setReport((prev) => ({
       borderRadius: 0,
       boxShadow: "none",
       border: "none",
+      minHeight: 0,
+      display: "flex",
+      flexDirection: "column",
     }
   : {
       // DESKTOP – giữ nguyên
@@ -716,6 +724,9 @@ setReport((prev) => ({
       boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
       padding: 24,
       border: "1px solid #e0e0e0",
+      minHeight: 0,
+      display: "flex",
+      flexDirection: "column",
     };
 
   const bubbleBotStyle: React.CSSProperties = {
@@ -784,7 +795,7 @@ const chatScrollStyle: React.CSSProperties = {
   paddingRight: 4,
 
   // ✅ FIX iOS 100vh: dùng visualViewport height
-  maxHeight:
+  height:
     effectiveVH > 0
       ? `${Math.max(
           320,
