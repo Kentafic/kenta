@@ -156,6 +156,7 @@ export default function LoanChatbot() {
   const [showAreaOptions, setShowAreaOptions] = useState(false);
   const [canShowLoanOptions, setCanShowLoanOptions] = useState(false);
   const hasRunIntro = useRef(false);
+  const bottomRef = useRef<HTMLDivElement | null>(null);
   const [showNameInput, setShowNameInput] = useState(false);
   const [fullName, setFullName] = useState("");
   const [showAgeInput, setShowAgeInput] = useState(false);
@@ -195,9 +196,6 @@ export default function LoanChatbot() {
   const chatBodyRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
   const [showFinalNotice, setShowFinalNotice] = useState(false);
-  const APP_FONT =
-  'Inter, Montserrat, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
-
 
 
   // Gõ từng chữ cho 1 bubble của bot
@@ -221,32 +219,6 @@ export default function LoanChatbot() {
       }
     }, TYPING_SPEED);
   };
-  // Hàm cuộn xuống đáy khung chat
-  const scrollToBottom = (smooth = true) => {
-  const el = chatBodyRef.current;
-  if (!el) return;
-
-  el.scrollTo({
-    top: el.scrollHeight,
-    behavior: smooth ? "smooth" : "auto",
-  });
-};
-// Tự động cuộn khi có tin nhắn mới hoặc trạng thái gõ chữ thay đổi
-useEffect(() => {
-  scrollToBottom(true);
-}, [
-  messages,
-  isTyping,
-  showAreaOptions,
-  showNameInput,
-  showAgeInput,
-  showLoanAmountInput,
-  showPurposeOptions,
-  showIncomeInput,
-  showCollateralOptions,
-  showCollateralValueInput,
-  showCreditOptions,
-]);
 
   // Hàm định dạng số tiền với dấu phẩy
   const formatNumber = (value: string) => {
@@ -317,6 +289,26 @@ useEffect(() => {
   };
 }, []);
 //--------------------------------------------------------------------
+//--------------------------------------------------------------------
+// Cuộn khung chat xuống dưới cùng khi có tin nhắn mới (fix iOS)
+useEffect(() => {
+  const el = chatBodyRef.current;
+  if (!el) return;
+  el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
+}, [
+  messages,
+  isTyping,
+  showAreaOptions,
+  showNameInput,
+  showAgeInput,
+  showLoanAmountInput,
+  showPurposeOptions,
+  showIncomeInput,
+  showCollateralOptions,
+  showCollateralValueInput,
+  showCreditOptions,
+]);
+
 //--------------------------------------------------------------------
   // Xử lý khi nhấn "vay cá nhân"
   const handlePersonalLoan = () => {
@@ -504,10 +496,13 @@ const handlePickBroker = (brokerName: string) => {
     typeBotMessage(botText);
     const delay = botText.length * 20 + 500;
     setTimeout(() => {
-      setShowFinishButton(true);
-       // ✅ scroll 1 lần sau khi nút render ra DOM
-    }, delay);
-  };
+  setShowNameInput(true);
+  setTimeout(() => {
+    const el = chatBodyRef.current;
+    if (!el) return;
+    el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
+  }, 50);
+}, delay);
 
   // XỬ LÝ KHI CHỌN HOÀN TẤT HỒ SƠ
   const handleOpenReport = () => {
@@ -649,10 +644,6 @@ setReport((prev) => ({
       borderRadius: 0,
       boxShadow: "none",
       border: "none",
-      display: "flex",
-      flexDirection: "column",
-      height: "100dvh",
-
     }
   : {
       // DESKTOP – giữ nguyên
@@ -703,60 +694,41 @@ setReport((prev) => ({
 
   // khung scroll chính của chat
  const chatScrollStyle: React.CSSProperties = {
-  flex: 1,
+  display: "flex",
+  flexDirection: "column",
   overflowY: "auto",
   boxSizing: "border-box",
   gap: 12,
   scrollBehavior: "smooth",
-  display: "flex",
-  flexDirection: "column",
 
-  paddingTop: 40,
+  // khoảng cách trên/dưới tuỳ mobile – desktop
+  paddingTop: isMobile ? 40 : 40,
+  paddingBottom: isMobile ? 16 : 24,
   paddingLeft: 12,
   paddingRight: 4,
 
-  // CHỪA CHỖ CHO COMPOSER + SAFE AREA
-  paddingBottom: isMobile ? 140 : 24,
+  // giới hạn chiều cao để xuất hiện thanh cuộn
+  maxHeight: isMobile
+    ? "calc(100vh - 120px)"   // mobile: chừa header + footer
+    : "calc(100vh - 160px)",  // desktop: chừa thoáng hơn
 };
 
    // ✅ RETURN DUY NHẤT CỦA COMPONENT
   return (
-  <div
-  className="kenta-chat-frame"
-  style={{
-    ...frameStyle,
-    fontFamily: APP_FONT,
-    WebkitFontSmoothing: "antialiased",
-    MozOsxFontSmoothing: "grayscale",
-  }}
->
+  <div className="kenta-chat-frame" style={frameStyle}>
     <style>
-  {`
-    /* ✅ FIX: khóa font toàn bộ chatbot + input/button inherit */
-    .kenta-chat-frame{
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-    }
-    .kenta-chat-frame input,
-    .kenta-chat-frame button,
-    .kenta-chat-frame textarea,
-    .kenta-chat-frame select{
-      font-family: inherit !important;
-      font-size: inherit;
-    }
+      {`
+        @keyframes userPop {
+          0% { transform: scale(0.9) translateY(6px); opacity: 0; }
+          100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
 
-    @keyframes userPop {
-      0% { transform: scale(0.9) translateY(6px); opacity: 0; }
-      100% { transform: scale(1) translateY(0); opacity: 1; }
-    }
-
-    @keyframes botFade {
-      0% { transform: translateY(6px); opacity: 0; }
-      100% { transform: translateY(0); opacity: 1; }
-    }
-  `}
-</style>
+        @keyframes botFade {
+          0% { transform: translateY(6px); opacity: 0; }
+          100% { transform: translateY(0); opacity: 1; }
+        }
+      `}
+    </style>
 
 {/* THÔNG BÁO CUỐI CÙNG KHI HOÀN TẤT HỒ SƠ */}
 
@@ -906,49 +878,43 @@ setReport((prev) => ({
               </div>
             )}
 
-{/* INPUT TÊN KHÁCH HÀNG — TẠM TẮT (ĐÃ CHUYỂN SANG COMPOSER) */}
-{false && showNameInput && (
-  <>
-    <div
+            {/* INPUT TÊN KHÁCH HÀNG */}
+          {showNameInput && (
+  <div
+    style={{
+      display: "flex",
+      flexDirection: isMobile ? "column" : "row",
+      gap: 10,
+      marginTop: 10,
+
+      // ✅ Mobile full width, Desktop co theo nội dung
+      width: isMobile ? "100%" : "fit-content",
+      alignSelf: isMobile ? "stretch" : "flex-start",
+
+      // căn theo từng mode
+      alignItems: isMobile ? "stretch" : "center",
+    }}
+  >
+    <input
+      type="text"
+      value={fullName}
+      placeholder="Nhập họ và tên của bạn..."
+      onChange={(e) => setFullName(e.target.value)}
       style={{
-        display: "flex",
-        flexDirection: isMobile ? "column" : "row",
-        gap: 10,
-        marginTop: 10,
+        // ✅ Mobile full width, Desktop cố định vừa đẹp
+        width: isMobile ? "100%" : 360,
+        flex: isMobile ? "1 1 auto" : "0 0 360px",
+        minWidth: 0,
 
-        // Mobile full width, Desktop co theo nội dung
-        width: isMobile ? "100%" : "fit-content",
-        alignSelf: isMobile ? "stretch" : "flex-start",
-
-        // căn theo từng mode
-        alignItems: isMobile ? "stretch" : "center",
-
-        // Ép font từ chat wrapper
-        fontFamily: "inherit",
+        height: 44,
+        padding: "0 16px",
+        borderRadius: 999,
+        border: "1px solid #c7d2fe",
+        outline: "none",
+        fontSize: 14,
+        boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
       }}
-    >
-      <input
-        type="text"
-        value={fullName}
-        placeholder="Nhập họ và tên của bạn..."
-        onChange={(e) => setFullName(e.target.value)}
-        style={{
-          width: isMobile ? "100%" : 360,
-          flex: isMobile ? "1 1 auto" : "0 0 360px",
-          minWidth: 0,
-          height: 44,
-          padding: "0 16px",
-          borderRadius: 999,
-          border: "1px solid #c7d2fe",
-          outline: "none",
-          fontSize: 14,
-          boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
-          fontFamily: "inherit",
-          WebkitFontSmoothing: "antialiased",
-          MozOsxFontSmoothing: "grayscale",
-        }}
-      />
-    </div>
+    />
 
     <button
       onClick={() => {
@@ -967,6 +933,7 @@ setReport((prev) => ({
         typeBotMessage(botText);
 
         const delay = botText.length * 20 + 500;
+
         setTimeout(() => {
           setShowAgeInput(true);
         }, delay);
@@ -986,114 +953,117 @@ setReport((prev) => ({
     >
       Xác nhận
     </button>
-  </>
-)}
-
-{/* NHẬP TUỔI — TẠM TẮT (ĐÃ CHUYỂN SANG COMPOSER) */}
-{false && showAgeInput && (
-  <div
-    style={{
-      display: "flex",
-      justifyContent: "flex-start",
-      marginTop: 8,
-    }}
-  >
-    <div
-      style={{
-        display: "flex",
-        gap: 8,
-        background: "#f8fbff",
-        padding: "10px 12px",
-        borderRadius: 20,
-        boxShadow: "0 4px 12px rgba(37,99,235,0.08)",
-      }}
-    >
-      <input
-        type="number"
-        value={age}
-        placeholder="Nhập độ tuổi..."
-        onChange={(e) => setAge(e.target.value)}
-        style={{
-          width: 120,
-          padding: "10px 14px",
-          borderRadius: 999,
-          border: "1px solid #c7d2fe",
-          outline: "none",
-          fontSize: 14,
-        }}
-      />
-
-      <button
-        onClick={() => {
-          const ageNumber = parseInt(age, 10);
-          if (!ageNumber) return;
-
-          setMessages((prev) => [
-            ...prev,
-            {
-              id: createId(),
-              from: "user",
-              text: `${ageNumber} tuổi`,
-            },
-          ]);
-
-          setShowAgeInput(false);
-          setShowLoanAmountInput(false);
-
-          if (ageNumber < 18) {
-            typeBotMessage(
-              "Rất tiếc 😔 Quý khách chưa thuộc đối tượng được cấp tín dụng theo quy định hiện hành."
-            );
-            return;
-          }
-
-          if (ageNumber <= 65) {
-            const botText =
-              "✅ Độ tuổi của Quý khách phù hợp với tiêu chuẩn cấp tín dụng. Kenta sẽ tiếp tục thu thập thêm thông tin. Trước hết, Quý khách vui lòng cho Kenta biết số tiền dự kiến cần vay (VNĐ) nhé.";
-
-            typeBotMessage(botText);
-
-            const delay = botText.length * 20 + 500;
-            setTimeout(() => {
-              setShowLoanAmountInput(true);
-            }, delay);
-            return;
-          }
-
-          const botText =
-            "Quý khách thuộc nhóm cần được thẩm định kỹ hơn. Tuy nhiên, Kenta vẫn tiếp tục hỗ trợ tư vấn. Quý khách vui lòng cho biết số tiền dự kiến cần vay (VNĐ) nhé.";
-
-          typeBotMessage(botText);
-
-          const delay = botText.length * 20 + 500;
-          setTimeout(() => {
-            setShowLoanAmountInput(true);
-          }, delay);
-        }}
-        style={{
-          padding: "10px 16px",
-          borderRadius: 999,
-          border: "none",
-          background: "linear-gradient(135deg,#2563eb,#1d4ed8)",
-          color: "#fff",
-          fontWeight: 600,
-          cursor: "pointer",
-          whiteSpace: "nowrap",
-        }}
-      >
-        Xác nhận
-      </button>
-    </div>
   </div>
 )}
-{/* NHẬP SỐ TIỀN VAY — TẠM TẮT (ĐÃ CHUYỂN SANG COMPOSER) */}
-{false && showLoanAmountInput && (
+
+
+            {/* NHẬP TUỔI */}
+            {showAgeInput && (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-start",
+                  marginTop: 8,
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    gap: 8,
+                    background: "#f8fbff",
+                    padding: "10px 12px",
+                    borderRadius: 20,
+                    boxShadow: "0 4px 12px rgba(37,99,235,0.08)",
+                  }}
+                >
+                  <input
+                    type="number"
+                    value={age}
+                    placeholder="Nhập độ tuổi..."
+                    onChange={(e) => setAge(e.target.value)}
+                    style={{
+                      width: 120,
+                      padding: "10px 14px",
+                      borderRadius: 999,
+                      border: "1px solid #c7d2fe",
+                      outline: "none",
+                      fontSize: 14,
+                    }}
+                  />
+
+                  <button
+                    onClick={() => {
+                      const ageNumber = parseInt(age, 10);
+                      if (!ageNumber) return;
+
+                      setMessages((prev) => [
+                        ...prev,
+                        {
+                          id: createId(),
+                          from: "user",
+                          text: `${ageNumber} tuổi`,
+                        },
+                      ]);
+
+                      setShowAgeInput(false);
+                      setShowLoanAmountInput(false);
+
+                      if (ageNumber < 18) {
+                        typeBotMessage(
+                          "Rất tiếc 😔 Quý khách chưa thuộc đối tượng được cấp tín dụng theo quy định hiện hành."
+                        );
+                        return;
+                      }
+
+                      if (ageNumber <= 65) {
+                        const botText =
+                          "✅ Độ tuổi của Quý khách phù hợp với tiêu chuẩn cấp tín dụng. Kenta sẽ tiếp tục thu thập thêm thông tin. Trước hết, Quý khách vui lòng cho Kenta biết số tiền dự kiến cần vay (VNĐ) nhé.";
+
+                        typeBotMessage(botText);
+
+                        const delay = botText.length * 20 + 500;
+                        setTimeout(() => {
+                          setShowLoanAmountInput(true);
+                        }, delay);
+                        return;
+                      }
+
+                      const botText =
+                        "Quý khách thuộc nhóm cần được thẩm định kỹ hơn. Tuy nhiên, Kenta vẫn tiếp tục hỗ trợ tư vấn. Quý khách vui lòng cho biết số tiền dự kiến cần vay (VNĐ) nhé.";
+
+                      typeBotMessage(botText);
+
+                      const delay = botText.length * 20 + 500;
+                      setTimeout(() => {
+                        setShowLoanAmountInput(true);
+                      }, delay);
+                    }}
+                    style={{
+                      padding: "10px 16px",
+                      borderRadius: 999,
+                      border: "none",
+                      background:
+                        "linear-gradient(135deg,#2563eb,#1d4ed8)",
+                      color: "#fff",
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    Xác nhận
+                  </button>
+                </div>
+              </div>
+            )}
+
+         {showLoanAmountInput && (
   <div
     style={{
       display: "flex",
       flexDirection: isMobile ? "column" : "row",
       gap: 10,
       marginTop: 10,
+
       width: isMobile ? "100%" : "fit-content",
       alignSelf: isMobile ? "stretch" : "flex-start",
       alignItems: isMobile ? "stretch" : "center",
@@ -1109,6 +1079,7 @@ setReport((prev) => ({
         width: isMobile ? "100%" : 360,
         flex: isMobile ? "1 1 auto" : "0 0 360px",
         minWidth: 0,
+
         height: 44,
         padding: "0 16px",
         borderRadius: 999,
@@ -1167,7 +1138,6 @@ setReport((prev) => ({
   </div>
 )}
 
-
             {/* NÚT CHỌN MỤC ĐÍCH VAY */}
             {showPurposeOptions && (
               <div
@@ -1214,15 +1184,15 @@ setReport((prev) => ({
               </div>
             )}
 
-          {/* THU NHẬP — TẠM TẮT (ĐÃ CHUYỂN SANG COMPOSER) */}
-{false && showIncomeInput && (
+           {/* GIAO DIỆN NHẬP THU NHẬP HÀNG THÁNG */}
+{showIncomeInput && (
   <div
     style={{
       marginTop: 14,
       display: "flex",
       justifyContent: "flex-start",
       width: "100%",
-      maxWidth: isMobile ? "100%" : 520,
+      maxWidth: isMobile ? "100%" : 520, // desktop giới hạn đẹp
     }}
   >
     <div
@@ -1230,6 +1200,8 @@ setReport((prev) => ({
         display: "flex",
         alignItems: "center",
         gap: 10,
+
+        // ✅ quan trọng: cho khung co giãn theo màn hình
         width: "100%",
         padding: "10px 12px",
         borderRadius: 999,
@@ -1245,9 +1217,11 @@ setReport((prev) => ({
         value={monthlyIncome}
         onChange={(e) => setMonthlyIncome(formatMoney(e.target.value))}
         style={{
+          // ✅ mobile: full width, desktop: không quá dài
           flex: 1,
           width: "100%",
           maxWidth: isMobile ? "100%" : 320,
+
           padding: "10px 14px",
           borderRadius: 999,
           border: "1px solid #c7d2fe",
@@ -1297,8 +1271,8 @@ setReport((prev) => ({
           fontWeight: 700,
           fontSize: 14,
           cursor: "pointer",
-          whiteSpace: "nowrap",
-          flexShrink: 0,
+          whiteSpace: "nowrap", // ✅ không bị xuống dòng
+          flexShrink: 0,        // ✅ nút không bị bóp méo
         }}
       >
         Xác nhận
@@ -1306,6 +1280,7 @@ setReport((prev) => ({
     </div>
   </div>
 )}
+
             {/* NÚT CHỌN LOẠI TÀI SẢN BẢO ĐẢM */}
             {showCollateralOptions && (
               <div
@@ -1355,15 +1330,15 @@ setReport((prev) => ({
               </div>
             )}
 
-         {/* GIÁ TRỊ TÀI SẢN — TẠM TẮT (ĐÃ CHUYỂN SANG COMPOSER) */}
-{false && showCollateralValueInput && (
+           {/* GIAO DIỆN NHẬP GIÁ TRỊ TÀI SẢN BẢO ĐẢM */}
+{showCollateralValueInput && (
   <div
     style={{
       display: "flex",
       justifyContent: "flex-start",
       marginTop: 10,
       width: "100%",
-      maxWidth: isMobile ? "100%" : 520,
+      maxWidth: isMobile ? "100%" : 520, // desktop giới hạn đẹp
     }}
   >
     <div
@@ -1371,6 +1346,7 @@ setReport((prev) => ({
         display: "flex",
         alignItems: "center",
         gap: 10,
+
         width: "100%",
         padding: "10px 12px",
         borderRadius: 999,
@@ -1391,7 +1367,7 @@ setReport((prev) => ({
         style={{
           flex: 1,
           width: "100%",
-          maxWidth: isMobile ? "100%" : 320,
+          maxWidth: isMobile ? "100%" : 320, // ✅ desktop không quá dài
           padding: "10px 14px",
           borderRadius: 999,
           border: "1px solid #c7d2fe",
@@ -1451,7 +1427,7 @@ setReport((prev) => ({
           fontSize: 14,
           cursor: "pointer",
           whiteSpace: "nowrap",
-          flexShrink: 0,
+          flexShrink: 0, // ✅ nút không bị bóp
         }}
       >
         Xác nhận
@@ -1459,7 +1435,6 @@ setReport((prev) => ({
     </div>
   </div>
 )}
-
 
 
             {/* NÚT CHỌN TÌNH TRẠNG TÍN DỤNG */}
@@ -2177,6 +2152,8 @@ setReport((prev) => ({
     </div>
   )
 )}
+        {/* ĐÁY KHUNG CHAT ĐỂ AUTO SCROLL */}
+        <div ref={bottomRef} />
       </div>
     </div>
   );
