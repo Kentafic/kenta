@@ -265,20 +265,21 @@ const ageInputRef = useRef<HTMLInputElement | null>(null);
     run(0);
   }, []);
 
-  //----------------------------------------------------------------
-  // Phát hiện kích thước màn hình
-  useEffect(() => {
-    const update = () => {
-      if (typeof window === "undefined") return;
-      setIsMobile(window.innerWidth <= 768);
-    };
+ // ------------------------------------------------------------
+// A) Detect mobile
+useEffect(() => {
+  if (typeof window === "undefined") return;
 
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
-//--------------------------------------------------------------------
-// Cập nhật chiều cao viewport (fix iOS)
+  const update = () => setIsMobile(window.innerWidth <= 768);
+
+  update();
+  window.addEventListener("resize", update, { passive: true });
+
+  return () => window.removeEventListener("resize", update);
+}, []);
+
+// ------------------------------------------------------------
+// B) Update viewport height + CSS var --app-height (fix iOS keyboard)
 useEffect(() => {
   if (typeof window === "undefined") return;
 
@@ -286,90 +287,94 @@ useEffect(() => {
 
   const update = () => {
     const h = vv?.height ?? window.innerHeight;
+
+    // nếu bạn còn dùng viewportH ở nơi khác
     setViewportH(Math.round(h));
+
+    // CSS var cho layout mobile
+    document.documentElement.style.setProperty(
+      "--app-height",
+      `${Math.round(h)}px`
+    );
   };
 
   update();
-  vv?.addEventListener("resize", update);
-  vv?.addEventListener("scroll", update);
-  window.addEventListener("resize", update);
+
+  vv?.addEventListener("resize", update, { passive: true } as any);
+  vv?.addEventListener("scroll", update, { passive: true } as any);
+  window.addEventListener("resize", update, { passive: true });
 
   return () => {
-    vv?.removeEventListener("resize", update);
-    vv?.removeEventListener("scroll", update);
+    vv?.removeEventListener("resize", update as any);
+    vv?.removeEventListener("scroll", update as any);
     window.removeEventListener("resize", update);
   };
 }, []);
-//--------------------------------------------------------------------
-// Cuộn khung chat xuống dưới cùng
-const scrollChatToBottom = (smooth = true) => {
-  const el = chatBodyRef.current;
+
+// ------------------------------------------------------------
+// C) Safe focus input (NO scrollIntoView, NO page scroll)
+const focusChatInput = (el: HTMLInputElement | null) => {
   if (!el) return;
-  el.scrollTo({ top: el.scrollHeight, behavior: smooth ? "smooth" : "auto" });
+
+  // focus nhưng không làm browser scroll (iOS)
+  try {
+    (el as any).focus({ preventScroll: true });
+  } catch {
+    el.focus();
+  }
+
+  // chỉ cuộn trong chat-body (KHÔNG đụng page)
+  requestAnimationFrame(() => {
+    const body = chatBodyRef.current;
+    if (!body) return;
+    body.scrollTop = body.scrollHeight;
+  });
 };
 
+// ------------------------------------------------------------
+// D1) Auto focus NAME input when it appears
 useEffect(() => {
   if (!showNameInput) return;
-  const input = nameInputRef.current;
-  if (!input) return;
 
-  const onFocus = () => {
-    setTimeout(() => {
-      input.scrollIntoView({ behavior: "smooth", block: "center" });
-      scrollChatToBottom(true);
-    }, 250);
-  };
+  const el = nameInputRef.current;
+  if (!el) return;
 
-  input.addEventListener("focus", onFocus);
-  // nếu muốn auto focus luôn:
-  setTimeout(() => input.focus(), 200);
-
-  return () => input.removeEventListener("focus", onFocus);
+  const id = requestAnimationFrame(() => focusChatInput(el));
+  return () => cancelAnimationFrame(id);
 }, [showNameInput]);
 
+// ------------------------------------------------------------
+// D2) Auto focus AGE input when it appears
 useEffect(() => {
   if (!showAgeInput) return;
-  const input = ageInputRef.current;
-  if (!input) return;
 
-  const onFocus = () => {
-    setTimeout(() => {
-      input.scrollIntoView({ behavior: "smooth", block: "center" });
-      scrollChatToBottom(true);
-    }, 250);
-  };
+  const el = ageInputRef.current;
+  if (!el) return;
 
-  input.addEventListener("focus", onFocus);
-  setTimeout(() => input.focus(), 200);
-
-  return () => input.removeEventListener("focus", onFocus);
+  const id = requestAnimationFrame(() => focusChatInput(el));
+  return () => cancelAnimationFrame(id);
 }, [showAgeInput]);
 
-
-
-
-// Cuộn khung chat xuống dưới cùng khi có tin nhắn mới (fix iOS)
+// ------------------------------------------------------------
+// E) Scroll chat-body to bottom on new messages/typing (stable on iOS)
 useEffect(() => {
-  const el = chatBodyRef.current;
-  if (!el) return;
-  el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
-}, [
-  messages,
-  isTyping,
-  showAreaOptions,
-  showNameInput,
-  showAgeInput,
-  showLoanAmountInput,
-  showPurposeOptions,
-  showIncomeInput,
-  showCollateralOptions,
-  showCollateralValueInput,
-  showCreditOptions,
-]);
-//khóa cuộn trang khi mở chatbot
+  const body = chatBodyRef.current;
+  if (!body) return;
+
+  // dùng auto (không smooth) để tránh “nhảy” khi keyboard thay đổi viewport
+  body.scrollTop = body.scrollHeight;
+}, [messages, isTyping]);
+
+// ------------------------------------------------------------
+// F) Lock page scroll when in chatbot
 useEffect(() => {
+  document.documentElement.classList.add("chatbot-lock");
   document.body.classList.add("chatbot-lock");
-  return () => document.body.classList.remove("chatbot-lock");
+
+  return () => {
+    document.documentElement.classList.remove("chatbot-lock");
+    document.body.classList.remove("chatbot-lock");
+  };
 }, []);
 
 //--------------------------------------------------------------------
@@ -496,6 +501,7 @@ const handlePickBroker = (brokerName: string) => {
       setShowNameInput(true);
     }, delay);
   };
+  
 
   // Xử lý khi chọn mục đích vay
   const handleSelectPurpose = (purpose: string) => {

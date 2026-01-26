@@ -3,16 +3,19 @@
    File: styles/chatbot.css
 ========================================================= */
 
-/* ============= LỚP BỌC TRANG CHATBOT ============= */
+/* ===== GLOBAL VARS (easy to tune) ===== */
+:root {
+  --kenta-header-h: 56px; /* chỉnh đúng chiều cao header mobile */
+}
 
-/* Desktop */
+/* ===== PAGE WRAPPER ===== */
 .chatbotPage {
-  min-height: 100vh;
+  min-height: 100dvh;
   background: #f5f9ff;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-   padding-top: 60px;         /* 👈 ĐẨY LÊN */
+  padding-top: 24px;
   padding-bottom: 40px;
 }
 
@@ -22,17 +25,14 @@
   padding: 0 16px;
 }
 
-/* ============= KHUNG CHÍNH CỦA LOANCHATBOT ============= */
-
-/* wrapper ngoài cùng của khung chat */
+/* ===== CHAT LAYOUT ===== */
 :global(.chat-wrapper) {
   display: flex;
   justify-content: center;
   width: 100%;
-  min-height:0;
+  min-height: 0;
 }
 
-/* box trắng chứa toàn bộ nội dung chat (desktop) */
 :global(.chat-box) {
   width: 100%;
   max-width: 420px;
@@ -41,133 +41,59 @@
   padding: 16px;
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
   border: 1px solid #e5e7eb;
+
   display: flex;
   flex-direction: column;
   min-height: 0;
+  overflow: hidden;
 }
 
-/* vùng CUỘN tin nhắn */
 :global(.chat-body) {
   padding: 12px 16px;
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  min-height: 0;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+
+  /* luôn chừa chỗ cho input bar (desktop + mobile fallback) */
+  padding-bottom: calc(72px + env(safe-area-inset-bottom));
 }
 
-/* ============= SCROLLBAR GIỐNG ZALO (CHUNG) ============= */
+/* Footer (input bar / option buttons) */
+:global(.chat-footer),
+:global(.chat-input-bar) {
+  flex: 0 0 auto;
+  background: rgba(255, 255, 255, 0.96);
+  border-top: 1px solid #eef2ff;
+  backdrop-filter: blur(10px);
+}
 
-/* Firefox */
+/* ===== SCROLLBAR ===== */
 :global(.chat-wrapper .chat-body) {
   scrollbar-width: thin;
   scrollbar-color: #c8c8c8 #f0f3f7;
 }
 
-/* Chrome / Edge / Safari */
 :global(.chat-wrapper .chat-body::-webkit-scrollbar) {
   width: 6px;
 }
-
 :global(.chat-wrapper .chat-body::-webkit-scrollbar-track) {
   background: #f0f3f7 !important;
   border-radius: 10px;
 }
-
 :global(.chat-wrapper .chat-body::-webkit-scrollbar-thumb) {
   background: #c8c8c8 !important;
   border-radius: 10px;
 }
-
 :global(.chat-wrapper .chat-body::-webkit-scrollbar-thumb:hover) {
   background: #b3b3b3 !important;
 }
 
-/* ============= MOBILE ============= */
-
-@media (max-width: 768px) {
-  .chatbotPage {
-    background: #f3f4ff;
-     padding-top: 56px;   /* 👈 CHỈNH CON SỐ NÀY */
-    padding-bottom: 0;
-  }
-
-  .chatbotCard {
-    width: 100%;
-    max-width: 420px;
-    margin: 0 auto;
-    padding: 0;
-  }
-
-  :global(.chat-wrapper) {
-    justify-content: flex-start;
-    width: 100%;
-  }
-
-  :global(.chat-box) {
-    width: 100%;
-    max-width: 100%;
-    padding: 12px;
-    border-radius: 0;
-    border: none;
-    box-shadow: none;
-    display: flex;
-    flex-direction: column;
-  }
-
-  :global(.chat-footer) {
-    padding: 12px;
-    border-top: 1px solid #eef2ff;
-    background: rgba(255, 255, 255, 0.95);
-    position: sticky;
-    bottom: env(safe-area-inset-bottom);
-  }
-
-  :global(.option-btn),
-  :global(.chat-send-btn) {
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  /* (tuỳ chọn) Nếu bạn vẫn muốn phá container cha ở trang CHATBOT:
-     - Giữ nguyên block này.
-     - Nếu sợ ảnh hưởng trang khác, hãy đảm bảo file này CHỈ import trong trang chatbot. */
-  :global(.container),
-  :global(.page-wrapper),
-  :global(.content-wrapper),
-  :global(.site-content),
-  :global(main),
-  :global(section),
-  :global(.section) {
-    max-width: 100% !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  :global(body) {
-    overflow-x: hidden !important;
-  }
-
-  :global(#__next) {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-}
-
-/* SAFE AREA (iOS notch…) */
-@supports (padding: env(safe-area-inset-bottom)) {
-  .chatbotCard {
-    padding-bottom: calc(16px + env(safe-area-inset-bottom));
-  }
-
-  :global(.chat-footer) {
-    padding-bottom: calc(12px + env(safe-area-inset-bottom));
-  }
-}
-
-/* ============= BUBBLE & AVATAR ============= */
-
+/* ===== BUBBLES ===== */
 :global(.bot-bubble) {
   background: #ffffff;
   border-radius: 14px;
@@ -208,8 +134,7 @@
   justify-content: flex-end;
 }
 
-/* ============= TYPING INDICATOR ============= */
-
+/* ===== TYPING INDICATOR ===== */
 :global(.typing) {
   display: flex;
   align-items: center;
@@ -228,22 +153,17 @@
   border-radius: 50%;
   animation: blink 1.4s infinite;
 }
-
 :global(.dot:nth-child(2)) {
   animation-delay: 0.2s;
 }
-
 :global(.dot:nth-child(3)) {
   animation-delay: 0.4s;
 }
 
-/* ============= INPUT BAR ============= */
-
+/* ===== INPUT ===== */
 :global(.chat-input-bar) {
   display: flex;
   padding: 10px 12px;
-  background: #ffffff;
-  border-top: 1px solid #eaeaea;
   gap: 10px;
 }
 
@@ -264,10 +184,10 @@
   color: #ffffff;
   cursor: pointer;
   font-weight: 600;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* ============= ANIMATION KEYFRAMES ============= */
-
+/* ===== ANIM ===== */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -302,151 +222,66 @@
   }
 }
 
-/* scrollbar “nhẹ” cho mọi phần tử con trong chatbot */
-.kenta-chatbot *::-webkit-scrollbar {
-  width: 4px;
-}
-
-.kenta-chatbot *::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.kenta-chatbot *::-webkit-scrollbar-thumb {
-  background-color: #d0d7ff !important;
-  border-radius: 999px;
-}
-/* =========================
-   KENTA – LOAN REPORT FONT FIX
-   Chỉ áp dụng cho phần "Nhận xét"
-========================= */
-
+/* ===== LOAN REPORT FONT FIX ===== */
 .kenta-loan-report,
 .kenta-loan-report * {
-  font-family: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-family: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", Roboto,
+    Arial, sans-serif;
 }
 
-/* Title */
-.kenta-loan-report h3,
-.kenta-loan-report .report-title {
-  font-weight: 700;
-  letter-spacing: -0.2px;
-}
-
-/* Nội dung phân tích */
-.kenta-loan-report p,
-.kenta-loan-report li,
-.kenta-loan-report span {
-  font-weight: 400;
-  letter-spacing: -0.1px;
-}
-
-/* Badge như LTV / DSR */
-.kenta-loan-report .badge,
-.kenta-loan-report .metric {
-  font-weight: 600;
-  font-size: 12px;
-}
-/* =========================================
-   DESKTOP — FIX: PAGE WRAPPERS PUSHING DOWN
-   Chỉ áp dụng trong trang chatbot
-========================================= */
-@media (min-width: 769px) {
-  /* 1) Kéo cả trang chatbot lên sát header hơn */
-  .chatbotPage {
-    padding-top: 16px !important;   /* thử 16 / 24 / 32 */
-  }
-
-  /* 2) Quan trọng: reset các wrapper global nhưng CHỈ TRONG chatbot */
-  .kenta-chatbot :global(.container),
-  .kenta-chatbot :global(.page-wrapper),
-  .kenta-chatbot :global(.content-wrapper),
-  .kenta-chatbot :global(.site-content),
-  .kenta-chatbot :global(main),
-  .kenta-chatbot :global(section),
-  .kenta-chatbot :global(.section) {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-  }
-
-  /* 3) Chống “căn giữa dọc” vô tình từ wrapper */
-  .kenta-chatbot :global(.chat-wrapper) {
-    min-height: unset !important;        /* bỏ 100% để không bị chi phối */
-    align-items: flex-start !important;
-  }
-}
-/* =========================================
-   DESKTOP — HARD LIFT CHAT BOX (SURE WIN)
-========================================= */
-@media (min-width: 769px) {
-  /* kéo cả khung chat lên */
-  .kenta-chatbot :global(.chat-box) {
-    transform: translateY(-120px) !important;  /* thử -80 / -120 / -160 */
-  }
-
-  /* nếu vẫn còn khoảng trống do padding-top của page */
-  .chatbotPage {
-    padding-top: 0 !important;
-  }
-}
-@media (min-width: 769px) {
-  .kenta-chat-frame {
-    margin-top: 16px !important; /* override marginTop 140 */
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-}
-:global(.chat-body) {
-  padding-bottom: calc(12px + env(safe-area-inset-bottom) + 56px);
-}
 /* =====================================
-   MOBILE iOS — FIX CỨNG KHUNG CHAT (SURE WIN)
-   - Không page scroll
-   - Khung chat fixed trong viewport
-   - Chỉ chat-body scroll
+   MOBILE — STABLE CHAT LAYOUT (iOS SAFE)
+   - Body không scroll
+   - Khung chat = 1 viewport
+   - Chỉ .chat-body scroll
 ===================================== */
 @media (max-width: 768px) {
-  /* 1) Trang chatbot không tự tạo khoảng đệm đẩy xuống nữa */
   .chatbotPage {
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-    min-height: 100vh;
-  }
-
-  /* 2) FIX CỨNG frame (quan trọng nhất) */
-  .kenta-chat-frame {
-    position: fixed;
-    left: 0;
-    right: 0;
-
-    /* chiều cao header mobile (logo KENTA) */
-    top: 56px;
-
-    /* chừa safe area đáy */
-    bottom: env(safe-area-inset-bottom);
-
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+    height: var(--app-height, 100dvh);
+    min-height: var(--app-height, 100dvh);
     overflow: hidden;
-    z-index: 999;
+
     background: #f3f4ff;
+    padding-top: var(--kenta-header-h);
+    padding-bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
   }
 
-  /* 3) chat-box chiếm toàn bộ chiều cao frame */
-  :global(.chat-box) {
-    flex: 1;
+  .chatbotCard {
+    width: 100%;
+    max-width: 420px;
     height: 100%;
     min-height: 0;
-    border-radius: 0 !important;
-    border: none !important;
-    box-shadow: none !important;
-    padding: 12px !important;
+    padding: 0;
+    margin: 0 auto;
+    display: flex;
+  }
+
+  :global(.chat-wrapper) {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    display: flex;
+  }
+
+  :global(.chat-box) {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+
     display: flex;
     flex-direction: column;
     overflow: hidden;
+
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    padding: 12px;
+    background: #fff;
   }
 
-  /* 4) CHỈ chat-body được scroll */
   :global(.chat-body) {
     flex: 1;
     min-height: 0;
@@ -454,23 +289,23 @@
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
 
-    /* chừa chỗ cho input */
-    padding-bottom: calc(72px + env(safe-area-inset-bottom)) !important;
+    padding-bottom: calc(72px + env(safe-area-inset-bottom));
   }
 
-  /* 5) Input sticky đáy */
   :global(.chat-footer),
   :global(.chat-input-bar) {
-    position: sticky;
-    bottom: env(safe-area-inset-bottom);
-    z-index: 2;
-    background: rgba(255,255,255,0.96);
+    flex: 0 0 auto;
+    background: rgba(255, 255, 255, 0.96);
     backdrop-filter: blur(10px);
+    border-top: 1px solid #eef2ff;
   }
 }
+
+/* ===== LOCK PAGE SCROLL WHEN IN CHATBOT ===== */
+html.chatbot-lock,
 body.chatbot-lock {
   height: 100%;
-  overflow: hidden;
+  overflow: hidden !important;
+  overscroll-behavior: none;
+  touch-action: pan-y; /* không khóa toàn bộ touch để tránh iOS giật */
 }
-:global(.chat-body) { padding-bottom: ... }
-
