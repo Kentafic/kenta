@@ -242,7 +242,7 @@
     overflow: hidden;
 
     background: #f3f4ff;
-    padding-top: var(--kenta-header-h);
+    padding-top: 0;
     padding-bottom: 0;
     display: flex;
     justify-content: center;
@@ -309,3 +309,13 @@ body.chatbot-lock {
   overscroll-behavior: none;
   touch-action: pan-y; /* không khóa toàn bộ touch để tránh iOS giật */
 }
+/* TSX hiện tại: input nằm trong scroll container => KHÔNG cần chừa 72px */
+:global(.chat-body) {
+  padding-bottom: 16px !important;
+}
+@media (max-width: 768px) {
+  :global(.chat-body) {
+    padding-bottom: 16px !important;
+  }
+}
+
