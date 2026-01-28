@@ -328,6 +328,10 @@ const focusChatInput = (el: HTMLInputElement | null) => {
     const body = chatBodyRef.current;
     if (!body) return;
     body.scrollTop = body.scrollHeight;
+     // ✅ thêm 1 nhịp nữa cho iOS
+  setTimeout(() => {
+    body.scrollTop = body.scrollHeight;
+  }, 50);
   });
 };
 
@@ -705,16 +709,18 @@ setReport((prev) => ({
   // style khung chat
   const frameStyle: React.CSSProperties = isMobile
   ? {
-      // MOBILE: full màn, dính sát 2 bên
       width: "100%",
       maxWidth: "100%",
       margin: 0,
-      padding: 12,
+      padding: 0,                 // ✅ quan trọng
       backgroundColor: "#f3f4ff",
       borderRadius: 0,
       boxShadow: "none",
       border: "none",
-      minHeight: 0,
+
+      height: "var(--app-height, 100dvh)", // ✅ quan trọng
+      overflow: "hidden",                  // ✅ quan trọng
+
       display: "flex",
       flexDirection: "column",
     }
@@ -786,34 +792,19 @@ const chatScrollStyle: React.CSSProperties = {
   boxSizing: "border-box",
   gap: 12,
 
-  // ✅ iOS momentum scroll
   WebkitOverflowScrolling: "touch",
-
-  // ✅ tránh “bounce” kéo cả trang
   overscrollBehavior: "contain",
-
-  // ⚠️ đừng set scrollBehavior ở đây (iOS hay giật), bạn đã scrollTo({behavior:"smooth"}) rồi
-  // scrollBehavior: "smooth",
 
   paddingTop: 40,
   paddingBottom: isMobile ? 16 : 24,
   paddingLeft: 12,
   paddingRight: 4,
 
-  // ✅ FIX iOS 100vh: dùng visualViewport height
-  height:
-    effectiveVH > 0
-      ? `${Math.max(
-          320,
-          effectiveVH - (isMobile ? RESERVED_MOBILE : RESERVED_DESKTOP)
-        )}px`
-      : isMobile
-      ? "calc(100vh - 120px)"
-      : "calc(100vh - 160px)",
-
   width: "100%",
 
-  // giảm reflow khi typing/scroll
+  flex: "1 1 auto",  // ✅ NEW
+  minHeight: 0,      // ✅ NEW (cực quan trọng để flex + overflow hoạt động)
+
   willChange: "scroll-position",
 };
 
@@ -865,7 +856,7 @@ const chatScrollStyle: React.CSSProperties = {
 )}
 
     {/* KHUNG CHÍNH CỦA CHAT */}
-    <div className="chat-body" ref={chatBodyRef} style={chatScrollStyle}>
+   <div className="kenta-chat-body" ref={chatBodyRef} style={chatScrollStyle}>
       {/* 👇 TOÀN BỘ CHAT CHỈ HIỆN KHI CHƯA ẨN */}
       {!hideChatContent && (
         <>
